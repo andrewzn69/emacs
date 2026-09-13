@@ -1,0 +1,14 @@
+local.el
+
+.DS_Store
+._*
+Thumbs.db
+desktop.ini
+
+*~
+\#*#
+.#*
+*.elc
+
+result
+result-*
