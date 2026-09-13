@@ -16,7 +16,7 @@
 				(or (bound-and-true-p straight-base-dir)
 						user-emacs-directory)))
       (bootstrap-version 7))
-	;; first start only: download and run the installer, which clones straight.el
+	;; first start only, download and run the installer which clones straight.el
 	(unless (file-exists-p bootstrap-file)
 		(with-current-buffer
 			  (url-retrieve-synchronously
@@ -24,7 +24,7 @@
 				 'silent 'inhibit-cookies)
 			(goto-char (point-max))
 			(eval-print-last-sexp)))
-	;; every start: load straight.el
+	;; every start, load straight.el
 	(load bootstrap-file nil 'nomessage))
 
 ;; built-in use-package, straight.el hooks into it as soon as it loads
