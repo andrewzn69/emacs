@@ -49,7 +49,7 @@ This uses the config pinned inside the flake. `~/.config/emacs` is not touched.
 ### Linux without Nix or root
 
 ```sh
-curl -fsSLO https://raw.githubusercontent.com/andrewzn69/emacs/main/install/install.sh
+curl -fsSLO https://raw.githubusercontent.com/andrewzn69/emacs/master/install/install.sh
 less install.sh
 sh install.sh
 ```
@@ -67,7 +67,7 @@ The script:
 git must be installed (Xcode Command Line Tools).
 
 ```sh
-curl -fsSLO https://raw.githubusercontent.com/andrewzn69/emacs/main/install/install.sh
+curl -fsSLO https://raw.githubusercontent.com/andrewzn69/emacs/master/install/install.sh
 less install.sh
 sh install.sh
 ```
@@ -84,7 +84,7 @@ Use a regular (non-admin) PowerShell:
 
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-Invoke-WebRequest https://raw.githubusercontent.com/andrewzn69/emacs/main/install/install.ps1 -OutFile install.ps1
+Invoke-WebRequest https://raw.githubusercontent.com/andrewzn69/emacs/master/install/install.ps1 -OutFile install.ps1
 notepad install.ps1
 Unblock-File .\install.ps1
 .\install.ps1
@@ -190,6 +190,7 @@ The config folder stays a clean git checkout. Everything Emacs writes at runtime
 │   ├── install.sh         Linux and macOS installer
 │   └── install.ps1        Windows installer
 ├── nix/
+│   ├── emacs.nix          Emacs build per OS, shared by the flake and the module
 │   └── hm-module.nix      home-manager module
 ├── flake.nix              Nix package, nix run, home-manager module export
 ├── flake.lock
@@ -235,6 +236,6 @@ scoop uninstall scoop
 ## Known limitations
 
 - Magit is slow on native Windows, taking seconds per status refresh.
-- In a terminal (`emacs -nw`) the terminal's font is used, dashboard images don't show, and gruvbox needs a true-colour terminal to look right.
+- In a terminal (`emacs -nw`) the terminal's font is used, dashboard icons are hidden, and gruvbox needs a true-colour terminal to look right.
 - GUI Emacs through nix-portable on Linux without Nix is untested.
 - Company device management may block downloaded apps or PowerShell scripts.
