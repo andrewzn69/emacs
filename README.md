@@ -1,6 +1,6 @@
 # emacs
 
-A personal Emacs config with evil, org, magit, gruvbox, JetBrains Mono and a dashboard start screen. It runs on Linux, macOS, Windows and NixOS, and nothing needs admin rights.
+A personal Emacs config with evil, org, magit, gruvbox, JetBrainsMono Nerd Font and a dashboard start screen. It runs on Linux, macOS, Windows and NixOS, and nothing needs admin rights.
 
 ## Requirements
 
@@ -23,7 +23,7 @@ emacs = {
 };
 ```
 
-Import the module in your home-manager config (pass the input through `extraSpecialArgs`). It installs Emacs, git and JetBrains Mono.
+Import the module in your home-manager config (pass the input through `extraSpecialArgs`). It installs Emacs, git and JetBrainsMono Nerd Font.
 
 ```nix
 imports = [ inputs.emacs.homeManagerModules.default ];
@@ -57,7 +57,7 @@ sh install.sh
 The script:
 - installs nix-portable, and through it Emacs and git
 - adds the `emacs` command to `~/.local/bin`
-- puts JetBrains Mono in `~/.local/share/fonts`
+- puts JetBrainsMono Nerd Font in `~/.local/share/fonts`
 - clones the config into `~/.config/emacs`
 
 `~/.local/bin` must be on your `PATH`.
@@ -75,7 +75,7 @@ sh install.sh
 The script:
 - installs `Emacs.app` into `~/Applications`
 - adds the `emacs` command to `~/.local/bin`
-- puts JetBrains Mono in `~/Library/Fonts`
+- puts JetBrainsMono Nerd Font in `~/Library/Fonts`
 - clones the config into `~/.config/emacs`
 
 ### Windows
@@ -92,7 +92,7 @@ Unblock-File .\install.ps1
 
 The script:
 - installs Scoop, then git and Emacs through Scoop
-- installs JetBrains Mono for your user
+- installs JetBrainsMono Nerd Font for your user
 - clones the config into `%APPDATA%\.config\emacs`
 
 Emacs uses `%APPDATA%` as its home folder unless a `HOME` environment variable is set. If you set one, the config belongs in `%HOME%\.config\emacs`.
@@ -156,7 +156,7 @@ On your other machines, run `git pull` in the config folder, then `M-x straight-
 
 ## Per-machine settings
 
-Copy `local.example.el` to `local.el`. It is git-ignored and loads last. Use it for font size, your org notes folder, or turning a module off on one machine.
+Copy `local.example.el` to `local.el`. It is git-ignored and loads before the modules, so its values win over module defaults. Use it for font size, your org notes folder, or turning a module off on one machine.
 
 ## Where things live
 
@@ -172,13 +172,14 @@ The config folder stays a clean git checkout. Everything Emacs writes at runtime
 .
 ├── early-init.el          runs before the first window: moves state out of the repo,
 │                          turns off package.el, hides tool/menu/scroll bars
-├── init.el                loads core/, then the enabled modules, then local.el
+├── init.el                loads core/, then local.el, then the enabled modules
 ├── core/
-│   ├── platform.el        OS and GUI/terminal checks, the only place the OS is detected
+│   ├── platform.el        OS checks, the only place the OS is detected
 │   ├── paths.el           state folder per OS
 │   └── packages.el        bootstraps straight.el, points it at lock/, hooks it into use-package
 ├── modules/               one feature per file, independent of each other
-│   ├── ui.el              gruvbox, JetBrains Mono, dashboard
+│   ├── ui.el              gruvbox, font
+│   ├── dashboard.el       start screen menu, session save and reload
 │   ├── evil.el            evil, evil-collection
 │   ├── org.el             org
 │   └── git.el             magit
@@ -224,7 +225,7 @@ rm -rf ~/Applications/Emacs.app ~/.config/emacs "$HOME/Library/Application Suppo
 rm -f ~/Library/Fonts/JetBrainsMono*
 ```
 
-**Windows:** remove JetBrains Mono in Settings → Fonts. Skip uninstalling git or Scoop if other things use them.
+**Windows:** remove JetBrainsMono Nerd Font in Settings → Fonts. Skip uninstalling git or Scoop if other things use them.
 ```powershell
 scoop uninstall emacs git
 Remove-Item -Recurse -Force "$env:APPDATA\.config\emacs", "$env:LOCALAPPDATA\emacs"
