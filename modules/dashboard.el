@@ -84,6 +84,8 @@
   (dashboard-item-generators '((menu . my/dashboard-insert-menu)))
   (dashboard-items '(menu))
   :config
+  ;; normal start shows the dashboard only when no file is passed
   (dashboard-setup-startup-hook)
-  ;; emacsclient frames open the dashboard too
-  (setq initial-buffer-choice #'dashboard-open))
+  ;; emacsclient frames open the dashboard, daemon only so emacs with a file doesnt split the window
+  (when (daemonp)
+    (setq initial-buffer-choice #'dashboard-open)))
