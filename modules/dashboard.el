@@ -13,10 +13,10 @@
 (defvar my/dashboard-banner-height 0.8)
 (defvar my/dashboard-footer-url "https://github.com/andrewzn69/emacs")
 (defvar my/dashboard-menu
-  '(("Recently opened files" nerd-icons-faicon "nf-fa-file_text" recentf-open)
+  '(("Recently opened files" nerd-icons-faicon "nf-fa-file_text" recentf-open-files)
     ("Reload last session" nerd-icons-octicon "nf-oct-history" my/load-session)
     ("Open org-agenda" nerd-icons-octicon "nf-oct-calendar" org-agenda)
-    ("Open project" nerd-icons-octicon "nf-oct-briefcase" project-switch-project)
+    ("Open project" nerd-icons-octicon "nf-oct-briefcase" projectile-switch-project)
     ("Jump to bookmark" nerd-icons-octicon "nf-oct-bookmark" bookmark-jump)
     ("Open private configuration" nerd-icons-octicon "nf-oct-tools" my/open-config)))
 
