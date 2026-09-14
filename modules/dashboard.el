@@ -9,7 +9,7 @@
 (advice-add 'display-startup-echo-area-message :override #'ignore)
 
 ;; defaults, local.el can override them
-(defvar my/dashboard-banner (expand-file-name "assets/banner.txt" my/config-directory))
+(defvar my/dashboard-banner (expand-file-name "assets/lain.txt" my/config-directory))
 (defvar my/dashboard-footer-url "https://github.com/andrewzn69/emacs")
 (defvar my/dashboard-menu
   '(("Recently opened files" nerd-icons-faicon "nf-fa-file_text" recentf-open)
