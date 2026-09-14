@@ -71,6 +71,9 @@
                           'action (lambda (_) (call-interactively command))
                           'follow-link t
                           'face 'dashboard-heading
+                          ;; label and command, shown in the echo area when the cursor moves onto the entry
+                          'help-echo (format "%s (%s)" label
+                                             (propertize (symbol-name command) 'face 'font-lock-constant-face))
 													;; marks entries the cursor can sit on
 													'my/dashboard-menu t)
       (insert (propertize (if key (key-description key) "") 'face 'font-lock-constant-face)
@@ -98,18 +101,14 @@
   (when (bound-and-true-p hl-line-mode)
     (hl-line-highlight)))
 
-;; moving past the last entry goes to the first and past the first goes to the last
+;; every entry is a button, so button movement wraps at both ends and echoes the entry help
 (defun my/dashboard-next-item ()
   (interactive)
-  (when-let* ((starts (my/dashboard-menu-starts)))
-    (goto-char (or (seq-find (lambda (start) (> start (point))) starts)
-                   (car starts)))))
+  (forward-button 1 t t t))
 
 (defun my/dashboard-previous-item ()
   (interactive)
-  (when-let* ((starts (my/dashboard-menu-starts)))
-    (goto-char (or (car (last (seq-filter (lambda (start) (< start (point))) starts)))
-                   (car (last starts))))))
+  (backward-button 1 t t t))
 
 ;; highlight covers the entry text only, not the empty space to the window edge
 (defun my/dashboard-line-range ()
@@ -162,6 +161,8 @@
                            "github")
                          'action (lambda (_) (browse-url my/dashboard-footer-url))
                          'follow-link t
+                         'help-echo (format "Open github page (%s)"
+                                            (propertize my/dashboard-footer-url 'face 'font-lock-constant-face))
                          'my/dashboard-menu t)
      (buffer-string))
    "\n"))
