@@ -5,6 +5,10 @@
 (defvar my/font-family "JetBrainsMono Nerd Font")
 (defvar my/font-height 140)
 
+;; autothemer json export cmds call json encode without loading json
+(with-eval-after-load 'autothemer
+  (require 'json))
+
 (use-package gruvbox-theme
 	:config
 	(load-theme my/theme t))
