@@ -5,6 +5,9 @@
 ;; skip a module
 ;; (setq my/modules (remove 'org my/modules))
 
+;; no pdf reader on machines that cant build or get epdfinfo
+;; (setq my/modules (remove 'pdf my/modules))
+
 ;; theme and font
 ;; (setq my/theme 'gruvbox-dark-soft)
 ;; (setq my/font-family "JetBrainsMono Nerd Font")
