@@ -71,13 +71,16 @@
 
 ;; cursor goes to the entry on its line, else the entry above, else the first entry
 (defun my/dashboard-snap-to-menu ()
-	(let ((starts (my/dashboard-menu-starts))
-				(bol (line-beginning-position))
-				(eol (line-end-position)))
-		(when starts
-			(goto-char (or (seq-find (lambda (start) (<= bol start eol)) starts)
-										 (car (last (seq-filter (lambda (start) (< start (point))) starts)))
-										 (car starts))))))
+  (let ((starts (my/dashboard-menu-starts))
+        (bol (line-beginning-position))
+        (eol (line-end-position)))
+    (when starts
+      (goto-char (or (seq-find (lambda (start) (<= bol start eol)) starts)
+                     (car (last (seq-filter (lambda (start) (< start (point))) starts)))
+                     (car starts)))))
+  ;; hl line runs before this hook, so the highlight is redrawn after the cursor moves
+  (when (bound-and-true-p hl-line-mode)
+    (hl-line-highlight)))
 
 ;; moving past the last entry goes to the first and past the first goes to the last
 (defun my/dashboard-next-item ()
@@ -92,10 +95,16 @@
     (goto-char (or (car (last (seq-filter (lambda (start) (< start (point))) starts)))
                    (car (last starts))))))
 
+;; highlight covers the entry text only, not the empty space to the window edge
+(defun my/dashboard-line-range ()
+  (cons (line-beginning-position) (line-end-position)))
+
 ;; snaps right away and again after every command in the dashboard buffer
 (defun my/dashboard-trap-cursor ()
-	(add-hook 'post-command-hook #'my/dashboard-snap-to-menu nil t)
-	(my/dashboard-snap-to-menu))
+  (setq-local hl-line-range-function #'my/dashboard-line-range)
+  (hl-line-mode 1)
+  (add-hook 'post-command-hook #'my/dashboard-snap-to-menu nil t)
+  (my/dashboard-snap-to-menu))
 
 ;; evil collection binds q to quit window in read only modes, removing it lets q record macros
 (defun my/dashboard-unbind-q (mode &rest _)
