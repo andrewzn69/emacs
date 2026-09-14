@@ -9,6 +9,7 @@
 (advice-add 'display-startup-echo-area-message :override #'ignore)
 
 ;; defaults, local.el can override them
+(defvar my/dashboard-banner (expand-file-name "assets/banner.txt" my/config-directory))
 (defvar my/dashboard-footer-url "https://github.com/andrewzn69/emacs")
 (defvar my/dashboard-menu
   '(("Recently opened files" nerd-icons-faicon "nf-fa-file_text" recentf-open)
@@ -78,14 +79,23 @@
   :custom
   (dashboard-center-content t)
   (dashboard-vertically-center-content t)
-  ;; menu then footer then load info
-  (dashboard-startupify-list '(dashboard-insert-items
+	(dashboard-startup-banner my/dashboard-banner)
+	;; banner with two empty lines below when set, a nil banner errors so it is left out
+  ;; then menu, footer then load info
+  (dashboard-startupify-list `(,@(when my/dashboard-banner
+																	 '(dashboard-insert-banner
+																		 dashboard-insert-newline
+																		 dashboard-insert-newline))
+															 dashboard-insert-items
                                dashboard-insert-newline
                                my/dashboard-insert-footer
                                dashboard-insert-newline
                                dashboard-insert-init-info))
   (dashboard-item-generators '((menu . my/dashboard-insert-menu)))
   (dashboard-items '(menu))
+	:custom-face
+	;; banner in the theme comment color
+	(dashboard-text-banner ((t (:inherit font-lock-comment-face))))
   :config
   ;; normal start shows the dashboard only when no file is passed
   (dashboard-setup-startup-hook)
