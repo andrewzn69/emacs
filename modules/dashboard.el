@@ -97,6 +97,13 @@
 	(add-hook 'post-command-hook #'my/dashboard-snap-to-menu nil t)
 	(my/dashboard-snap-to-menu))
 
+;; evil collection binds q to quit window in read only modes, removing it lets q record macros
+(defun my/dashboard-unbind-q (mode &rest _)
+  (when (eq mode 'dashboard)
+    (evil-define-key* 'normal dashboard-mode-map "q" nil)))
+
+(add-hook 'evil-collection-setup-hook #'my/dashboard-unbind-q)
+
 ;; github icon linking to the cfg repo, plain text in a terminal
 (defun my/dashboard-insert-footer ()
   (dashboard-insert-center
