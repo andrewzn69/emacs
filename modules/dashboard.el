@@ -55,12 +55,12 @@
                           'action (lambda (_) (call-interactively command))
                           'follow-link t
                           'face 'dashboard-heading
-													;; marks menu labels for the cursor, the footer link has no mark
+													;; marks entries the cursor can sit on
 													'my/dashboard-menu t)
       (insert (propertize (if key (key-description key) "") 'face 'font-lock-constant-face)
               "\n\n"))))
 
-;; start of every menu label, top to bottom
+;; start of every marked entry, top to bottom
 (defun my/dashboard-menu-starts ()
 	(let (starts)
 		(save-excursion
@@ -69,7 +69,7 @@
 				(push (prop-match-beginning match) starts)))
 		(nreverse starts)))
 
-;; cursor goes to the label on its line, else the label above, else the first label
+;; cursor goes to the entry on its line, else the entry above, else the first entry
 (defun my/dashboard-snap-to-menu ()
 	(let ((starts (my/dashboard-menu-starts))
 				(bol (line-beginning-position))
@@ -107,7 +107,8 @@
                                                  :v-adjust -0.15)
                            "github")
                          'action (lambda (_) (browse-url my/dashboard-footer-url))
-                         'follow-link t)
+                         'follow-link t
+                         'my/dashboard-menu t)
      (buffer-string))
    "\n"))
 
