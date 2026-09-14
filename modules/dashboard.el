@@ -122,6 +122,25 @@
   (add-hook 'post-command-hook #'my/dashboard-snap-to-menu nil t)
   (my/dashboard-snap-to-menu))
 
+;; old padding removed, then half the free window height added as empty lines on top
+;; measured in pixels because the banner lines are shorter than normal lines
+(defun my/dashboard-center-vertically (window)
+  (with-silent-modifications
+    (save-excursion
+      (goto-char (point-min))
+      (delete-region (point) (progn (skip-chars-forward "\n") (point)))
+      (let ((lines (floor (- (window-body-height window t)
+                             (cdr (window-text-pixel-size window)))
+                          (* 2 (default-line-height)))))
+        (when (> lines 0)
+          (insert (make-string lines ?\n)))))))
+
+;; recenters when a window shows the dashboard or changes size, and right away after a render
+(defun my/dashboard-keep-centered ()
+  (add-hook 'window-size-change-functions #'my/dashboard-center-vertically nil t)
+  (when-let* ((window (get-buffer-window nil t)))
+    (my/dashboard-center-vertically window)))
+
 ;; evil collection binds q to quit window in read only modes, removing it lets q record macros
 (defun my/dashboard-unbind-q (mode &rest _)
   (when (eq mode 'dashboard)
@@ -150,7 +169,6 @@
 (use-package dashboard
   :custom
   (dashboard-center-content t)
-  (dashboard-vertically-center-content t)
   ;; banner with two empty lines below when set, then menu, footer and load info
   (dashboard-startupify-list `(,@(when my/dashboard-banner
                                    '(my/dashboard-insert-banner
@@ -169,6 +187,7 @@
   :config
 	;; every render ends in dashboard mode, startup then moves the cursor to the top again
 	(add-hook 'dashboard-mode-hook #'my/dashboard-trap-cursor)
+  (add-hook 'dashboard-mode-hook #'my/dashboard-keep-centered)
 	(add-hook 'dashboard-after-initialize-hook #'my/dashboard-snap-to-menu)
 	;; line and widget movement jumps between menu items instead
 	(dolist (command '(dashboard-next-line next-line widget-forward
