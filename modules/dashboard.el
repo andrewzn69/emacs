@@ -54,9 +54,47 @@
       (insert-text-button (format "%-30s" label)
                           'action (lambda (_) (call-interactively command))
                           'follow-link t
-                          'face 'dashboard-heading)
+                          'face 'dashboard-heading
+													;; marks menu labels for the cursor, the footer link has no mark
+													'my/dashboard-menu t)
       (insert (propertize (if key (key-description key) "") 'face 'font-lock-constant-face)
               "\n\n"))))
+
+;; start of every menu label, top to bottom
+(defun my/dashboard-menu-starts ()
+	(let (starts)
+		(save-excursion
+			(goto-char (point-min))
+			(while-let ((match (text-property-search-forward 'my/dashboard-menu t t)))
+				(push (prop-match-beginning match) starts)))
+		(nreverse starts)))
+
+;; cursor goes to the label on its line, else the label above, else the first label
+(defun my/dashboard-snap-to-menu ()
+	(let ((starts (my/dashboard-menu-starts))
+				(bol (line-beginning-position))
+				(eol (line-end-position)))
+		(when starts
+			(goto-char (or (seq-find (lambda (start) (<= bol start eol)) starts)
+										 (car (last (seq-filter (lambda (start) (< start (point))) starts)))
+										 (car starts))))))
+
+(defun my/dashboard-next-item ()
+	(interactive)
+	(when-let* ((next (seq-find (lambda (start) (> start (point)))
+															(my/dashboard-menu-starts))))
+		(goto-char next)))
+
+(defun my/dashboard-previous-item ()
+	(interactive)
+	(when-let* ((previous (car (last (seq-filter (lambda (start) (< start (point)))
+																							 (my/dashboard-menu-starts))))))
+		(goto-char previous)))
+
+;; snaps right away and again after every command in the dashboard buffer
+(defun my/dashboard-trap-cursor ()
+	(add-hook 'post-command-hook #'my/dashboard-snap-to-menu nil t)
+	(my/dashboard-snap-to-menu))
 
 ;; github icon linking to the cfg repo, plain text in a terminal
 (defun my/dashboard-insert-footer ()
@@ -97,6 +135,16 @@
 	;; banner in the theme comment color
 	(dashboard-text-banner ((t (:inherit font-lock-comment-face))))
   :config
+	;; every render ends in dashboard mode, startup then moves the cursor to the top again
+	(add-hook 'dashboard-mode-hook #'my/dashboard-trap-cursor)
+	(add-hook 'dashboard-after-initialize-hook #'my/dashboard-snap-to-menu)
+	;; line and widget movement jumps between menu items instead
+	(dolist (command '(dashboard-next-line next-line widget-forward
+										 evil-next-line evil-next-visual-line))
+		(define-key dashboard-mode-map (vector 'remap command) #'my/dashboard-next-item))
+  (dolist (command '(dashboard-previous-line previous-line widget-backward
+										 evil-previous-line evil-previous-visual-line))
+		(define-key dashboard-mode-map (vector 'remap command) #'my/dashboard-previous-item))
   ;; normal start shows the dashboard only when no file is passed
   (dashboard-setup-startup-hook)
   ;; emacsclient frames open the dashboard, daemon only so emacs with a file doesnt split the window
