@@ -1,7 +1,7 @@
 ;;; init.el --- Loads core, local settings and modules -*- lexical-binding: t; -*-
 
 ;; modules to load in order, local.el can add or remove them
-(defvar my/modules '(ui dashboard evil org git))
+(defvar my/modules '(ui dashboard editor evil org git))
 
 ;; pkg manager first, modules install pkgs through it
 (load (expand-file-name "core/packages" my/config-directory) nil 'nomessage)
