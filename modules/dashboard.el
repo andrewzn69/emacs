@@ -133,7 +133,9 @@
                              (cdr (window-text-pixel-size window)))
                           (* 2 (default-line-height)))))
         (when (> lines 0)
-          (insert (make-string lines ?\n)))))))
+          (insert (make-string lines ?\n))))))
+  ;; scroll back to the top, a window too short for the selected entry picks its own start
+  (set-window-start window (point-min) t))
 
 ;; recenters when a window shows the dashboard or changes size, and right away after a render
 (defun my/dashboard-keep-centered ()
