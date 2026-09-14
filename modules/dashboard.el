@@ -196,6 +196,8 @@
   (dolist (command '(dashboard-previous-line previous-line widget-backward
 										 evil-previous-line evil-previous-visual-line))
 		(define-key dashboard-mode-map (vector 'remap command) #'my/dashboard-previous-item))
+  ;; mouse wheel does nothing so the centered content stays in place
+  (define-key dashboard-mode-map [remap mwheel-scroll] #'ignore)
   ;; normal start shows the dashboard only when no file is passed
   (dashboard-setup-startup-hook)
   ;; emacsclient frames open the dashboard, daemon only so emacs with a file doesnt split the window
