@@ -26,8 +26,11 @@
         {
           default = pkgs.writeShellApplication {
             name = "emacs";
-            # git only on this emacs path, straight and magit need it
-            runtimeInputs = [ pkgs.git ];
+            # git for straight and magit, epdfinfo for pdf tools, only on this emacs path
+            runtimeInputs = [
+              pkgs.git
+              (import ./nix/epdfinfo.nix pkgs)
+            ];
             text = ''
               exec ${emacs}/bin/emacs --init-directory ${self} "$@"
             '';
