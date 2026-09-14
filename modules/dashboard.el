@@ -79,17 +79,18 @@
 										 (car (last (seq-filter (lambda (start) (< start (point))) starts)))
 										 (car starts))))))
 
+;; moving past the last entry goes to the first and past the first goes to the last
 (defun my/dashboard-next-item ()
-	(interactive)
-	(when-let* ((next (seq-find (lambda (start) (> start (point)))
-															(my/dashboard-menu-starts))))
-		(goto-char next)))
+  (interactive)
+  (when-let* ((starts (my/dashboard-menu-starts)))
+    (goto-char (or (seq-find (lambda (start) (> start (point))) starts)
+                   (car starts)))))
 
 (defun my/dashboard-previous-item ()
-	(interactive)
-	(when-let* ((previous (car (last (seq-filter (lambda (start) (< start (point)))
-																							 (my/dashboard-menu-starts))))))
-		(goto-char previous)))
+  (interactive)
+  (when-let* ((starts (my/dashboard-menu-starts)))
+    (goto-char (or (car (last (seq-filter (lambda (start) (< start (point))) starts)))
+                   (car (last starts))))))
 
 ;; snaps right away and again after every command in the dashboard buffer
 (defun my/dashboard-trap-cursor ()
