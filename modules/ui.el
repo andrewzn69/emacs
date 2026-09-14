@@ -3,7 +3,7 @@
 ;; defaults
 (defvar my/theme 'gruvbox-dark-hard)
 (defvar my/font-family "JetBrainsMono Nerd Font")
-(defvar my/font-height 140)
+(defvar my/font-height 98)
 
 ;; autothemer json export cmds call json encode without loading json
 (with-eval-after-load 'autothemer
