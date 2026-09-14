@@ -10,6 +10,7 @@
 
 ;; defaults, local.el can override them
 (defvar my/dashboard-banner (expand-file-name "assets/lain.txt" my/config-directory))
+(defvar my/dashboard-banner-height 0.6)
 (defvar my/dashboard-footer-url "https://github.com/andrewzn69/emacs")
 (defvar my/dashboard-menu
   '(("Recently opened files" nerd-icons-faicon "nf-fa-file_text" recentf-open)
@@ -40,6 +41,21 @@
   (interactive)
   (let ((default-directory my/config-directory))
     (call-interactively #'find-file)))
+
+;; banner in a smaller font, centered by its scaled width, the prefix space gets the same face so lines shrink too
+(defun my/dashboard-insert-banner ()
+  (let* ((text (with-temp-buffer
+                 (insert-file-contents my/dashboard-banner)
+                 (buffer-string)))
+         (scale (if (display-graphic-p) my/dashboard-banner-height 1))
+         (width (apply #'max (mapcar #'string-width (split-string text "\n"))))
+         (prefix (propertize " "
+                             'face 'dashboard-text-banner
+                             'display `(space :align-to (- center ,(/ (* width scale) 2.0)))))
+         (start (point)))
+    (insert text)
+    (add-text-properties start (point)
+                         `(face dashboard-text-banner line-prefix ,prefix wrap-prefix ,prefix))))
 
 ;; one line per menu entry with icon, clickable label and key if bound
 (defun my/dashboard-insert-menu (&rest _)
@@ -135,23 +151,21 @@
   :custom
   (dashboard-center-content t)
   (dashboard-vertically-center-content t)
-	(dashboard-startup-banner my/dashboard-banner)
-	;; banner with two empty lines below when set, a nil banner errors so it is left out
-  ;; then menu, footer then load info
+  ;; banner with two empty lines below when set, then menu, footer and load info
   (dashboard-startupify-list `(,@(when my/dashboard-banner
-																	 '(dashboard-insert-banner
-																		 dashboard-insert-newline
-																		 dashboard-insert-newline))
-															 dashboard-insert-items
+                                   '(my/dashboard-insert-banner
+                                     dashboard-insert-newline
+                                     dashboard-insert-newline))
+                               dashboard-insert-items
                                dashboard-insert-newline
                                my/dashboard-insert-footer
                                dashboard-insert-newline
                                dashboard-insert-init-info))
   (dashboard-item-generators '((menu . my/dashboard-insert-menu)))
   (dashboard-items '(menu))
-	:custom-face
-	;; banner in the theme comment color
-	(dashboard-text-banner ((t (:inherit font-lock-comment-face))))
+  :custom-face
+  ;; banner in the theme comment color and a smaller font
+  (dashboard-text-banner ((t (:inherit font-lock-comment-face :height ,my/dashboard-banner-height))))
   :config
 	;; every render ends in dashboard mode, startup then moves the cursor to the top again
 	(add-hook 'dashboard-mode-hook #'my/dashboard-trap-cursor)
