@@ -52,15 +52,17 @@
 
 ;; banner in a smaller font, the prefix space gets the same face so lines shrink too
 (defun my/dashboard-insert-banner ()
-  (let* ((text (propertize (with-temp-buffer
+  (let* (;; height set here so a theme styling the banner face cant change the size
+         (face `(:inherit dashboard-text-banner :height ,my/dashboard-banner-height))
+         (text (propertize (with-temp-buffer
                              (insert-file-contents my/dashboard-banner)
                              (buffer-string))
-                           'face 'dashboard-text-banner))
+                           'face face))
          ;; rendered width of the widest line in default columns, the same measure the menu is centered by
          ;; so the smaller face and the font that draws the glyphs both count
          (width (/ (string-pixel-width text) (float (frame-char-width))))
          (prefix (propertize " "
-                             'face 'dashboard-text-banner
+                             'face face
                              'display `(space :align-to (- center ,(/ width 2)))))
          (start (point)))
     (insert text)
@@ -211,9 +213,6 @@
                                dashboard-insert-init-info))
   (dashboard-item-generators '((menu . my/dashboard-insert-menu)))
   (dashboard-items '(menu))
-  :custom-face
-  ;; banner in the theme comment color and a smaller font
-  (dashboard-text-banner ((t (:inherit font-lock-comment-face :height ,my/dashboard-banner-height))))
   :config
 	;; every render ends in dashboard mode, startup then moves the cursor to the top again
 	(add-hook 'dashboard-mode-hook #'my/dashboard-trap-cursor)
