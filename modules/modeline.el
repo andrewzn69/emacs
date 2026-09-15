@@ -21,6 +21,8 @@
 	(doom-modeline-check 'simple)
 	;; path starts at the project folder
 	(doom-modeline-buffer-file-name-style 'relative-from-project)
+	;; mode icon drawn next to the mode name instead of in front of the path
+	(doom-modeline-major-mode-icon nil)
 	;; encoding only when it isnt utf 8 with the os line endings
 	(doom-modeline-buffer-encoding 'nondefault)
 	(doom-modeline-default-eol-type (if my/windows-p 1 0))
@@ -49,6 +51,9 @@
 				(concat (propertize " " 'face face)
 								(doom-modeline-icon 'powerline "nf-pl-branch" "" nil :face face)
 								(propertize (concat " " branch " ") 'face face)))))
+	;; mode icon for the mode name
+	(doom-modeline-def-segment my/major-mode-icon
+		(concat (doom-modeline-spc) (doom-modeline-display-icon (nerd-icons-icon-for-buffer))))
 	;; share of the buffer above the window top on the panel face in the selected window only
 	(doom-modeline-def-segment my/buffer-percent
 		(when (doom-modeline--active)
@@ -69,6 +74,7 @@
 	;; every layout starts with the state block and branch and ends with the clock, bar, modals, stock branch, stock time and stock position are dropped
 	(doom-modeline-add-segment 'my/evil-state 'bar :before)
 	(doom-modeline-add-segment 'my/vcs-branch 'my/evil-state :after)
+	(doom-modeline-add-segment 'my/major-mode-icon 'major-mode :before)
 	(doom-modeline-add-segment 'my/time 'time :after)
 	;; percent and position before the clock, skipping the layouts that never showed a position
 	(let ((doom-modeline-excluded-modelines '(minimal dashboard media pdf helm)))
