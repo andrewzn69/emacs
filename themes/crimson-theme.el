@@ -91,13 +91,13 @@
 	 `(doom-modeline-bar ((t :background ,coral)))                          ; lualine normal mode
 	 `(doom-modeline-bar-inactive ((t :background ,surface0)))              ; lualine section c
 	 `(doom-modeline-panel ((t :foreground ,fg4 :background ,surface2)))    ; lualine section b
-	 `(doom-modeline-evil-normal-state ((t :foreground ,coral)))            ; lualine normal mode
-	 `(doom-modeline-evil-operator-state ((t :foreground ,coral)))          ; lualine normal mode
-	 `(doom-modeline-evil-motion-state ((t :foreground ,coral)))            ; lualine normal mode
-	 `(doom-modeline-evil-insert-state ((t :foreground ,neutral-blue)))     ; lualine insert mode
-	 `(doom-modeline-evil-visual-state ((t :foreground ,neutral-yellow)))   ; lualine visual mode
-	 `(doom-modeline-evil-replace-state ((t :foreground ,neutral-red)))     ; lualine replace mode
-	 `(doom-modeline-evil-emacs-state ((t :foreground ,neutral-purple)))    ; lualine command mode
+	 `(doom-modeline-evil-normal-state ((t :foreground ,bg0 :background ,coral :weight bold)))            ; lualine normal section a
+	 `(doom-modeline-evil-operator-state ((t :foreground ,bg0 :background ,coral :weight bold)))          ; lualine normal section a
+	 `(doom-modeline-evil-motion-state ((t :foreground ,bg0 :background ,coral :weight bold)))            ; lualine normal section a
+	 `(doom-modeline-evil-insert-state ((t :foreground ,bg0 :background ,neutral-blue :weight bold)))     ; lualine insert section a
+	 `(doom-modeline-evil-visual-state ((t :foreground ,bg0 :background ,neutral-yellow :weight bold)))   ; lualine visual section a
+	 `(doom-modeline-evil-replace-state ((t :foreground ,bg0 :background ,neutral-red :weight bold)))     ; lualine replace section a
+	 `(doom-modeline-evil-emacs-state ((t :foreground ,bg0 :background ,neutral-purple :weight bold)))    ; lualine command section a
 	 `(doom-modeline-urgent ((t :foreground ,red :weight bold)))            ; DiagnosticError
 	 `(doom-modeline-warning ((t :foreground ,yellow :weight bold)))        ; DiagnosticWarn
 	 `(doom-modeline-info ((t :foreground ,green :weight bold)))            ; DiagnosticOk

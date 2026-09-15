@@ -1,8 +1,22 @@
 ;;; modeline.el --- Mode line -*- lexical-binding: t; -*-
 
+;; full state names instead of the short tags, evil declares them with defvar so values set before it loads stay
+(setq evil-normal-state-tag " NORMAL "
+      evil-insert-state-tag " INSERT "
+      evil-visual-char-tag " VISUAL "
+      evil-visual-line-tag " V-LINE "
+      evil-visual-screen-line-tag " V-LINE "
+      evil-visual-block-tag " V-BLOCK "
+      evil-replace-state-tag " REPLACE "
+      evil-operator-state-tag " O-PENDING "
+      evil-motion-state-tag " MOTION "
+      evil-emacs-state-tag " EMACS ")
+
 (use-package doom-modeline
 	:custom
 	(doom-modeline-bar-width 3)
+	;; state name text instead of an icon
+	(doom-modeline-modal-icon nil)
 	;; error and warning counts only
 	(doom-modeline-check 'simple)
 	;; path starts at the project folder
