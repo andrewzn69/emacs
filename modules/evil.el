@@ -21,3 +21,7 @@
 	:after evil
 	:config
 	(evil-collection-init))
+
+;; match count for evil searches too, anzu alone only sees the typing before return
+(use-package evil-anzu
+	:after (evil anzu))
