@@ -26,19 +26,32 @@
 	(mapc #'delete-overlay my/column-highlight-overlays)
 	(setq my/column-highlight-overlays nil))
 
-;; cell at the column on the line at point, a line ending before it gets padding and a colored space
+;; cell at the column on the line at point
 (defun my/column-highlight-line (column window)
-	(let* ((reached (move-to-column column))
-				 (overlay (cond
-									 ;; tab or wide character across the column, point lands after it
-									 ((> reached column) (make-overlay (1- (point)) (point)))
-									 ((not (eolp)) (make-overlay (point) (1+ (point))))
-									 (t (make-overlay (point) (point))))))
-		(if (= (overlay-start overlay) (overlay-end overlay))
-				(overlay-put overlay 'after-string
-										 (concat (make-string (- column reached) ?\s)
-														 (propertize " " 'face 'my/column-highlight)))
+	(let ((reached (move-to-column column))
+				(overlay nil))
+		(cond
+		 ;; a tab spans several columns, drawn as spaces so only the cell at the column is colored
+		 ((and (> reached column) (eq (char-before) ?\t))
+			(let ((start (save-excursion (backward-char) (current-column))))
+				(setq overlay (make-overlay (1- (point)) (point)))
+				(overlay-put overlay 'display
+										 (concat (make-string (- column start) ?\s)
+														 (propertize " " 'face 'my/column-highlight)
+														 (make-string (- reached column 1) ?\s)))))
+		 ;; a wide character keeps its glyph so the whole character is colored
+		 ((> reached column)
+			(setq overlay (make-overlay (1- (point)) (point)))
 			(overlay-put overlay 'face 'my/column-highlight))
+		 ;; line ends before the column, padding and one colored cell after it
+		 ((eolp)
+			(setq overlay (make-overlay (point) (point)))
+			(overlay-put overlay 'after-string
+									 (concat (make-string (- column reached) ?\s)
+													 (propertize " " 'face 'my/column-highlight))))
+		 (t
+			(setq overlay (make-overlay (point) (1+ (point))))
+			(overlay-put overlay 'face 'my/column-highlight)))
 		;; below the cursor line overlay and only in the window that was drawn for
 		(overlay-put overlay 'priority -50)
 		(overlay-put overlay 'window window)
