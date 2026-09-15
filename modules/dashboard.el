@@ -12,7 +12,7 @@
 (defvar my/dashboard-banner (expand-file-name "assets/lain.txt" my/config-directory))
 (defvar my/dashboard-banner-height 0.8)
 ;; spaces between the longest menu label and the key column
-(defvar my/dashboard-key-gap 30)
+(defvar my/dashboard-key-gap 10)
 (defvar my/dashboard-footer-url "https://github.com/andrewzn69/emacs")
 (defvar my/dashboard-menu
   '(("Recently opened files" nerd-icons-faicon "nf-fa-file_text" recentf-open-files)
