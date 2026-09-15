@@ -11,6 +11,8 @@
 ;; defaults, local.el can override them
 (defvar my/dashboard-banner (expand-file-name "assets/lain.txt" my/config-directory))
 (defvar my/dashboard-banner-height 0.8)
+;; spaces between the longest menu label and the key column
+(defvar my/dashboard-key-gap 8)
 (defvar my/dashboard-footer-url "https://github.com/andrewzn69/emacs")
 (defvar my/dashboard-menu
   '(("Recently opened files" nerd-icons-faicon "nf-fa-file_text" recentf-open-files)
@@ -63,6 +65,11 @@
     (add-text-properties start (point)
                          `(face dashboard-text-banner line-prefix ,prefix wrap-prefix ,prefix))))
 
+;; key column starts a fixed gap after the longest label, so every key lines up
+(defun my/dashboard-label-width ()
+  (+ my/dashboard-key-gap
+     (apply #'max (mapcar (lambda (item) (string-width (car item))) my/dashboard-menu))))
+
 ;; one line per menu entry with icon, clickable label and key if bound
 (defun my/dashboard-insert-menu (&rest _)
   (dolist (item my/dashboard-menu)
@@ -76,7 +83,7 @@
                   (key-description (where-is-internal command nil t)))))
       (when (dashboard-display-icons-p)
         (insert (format "%-3s" (funcall icon-fn icon :face 'dashboard-heading))))
-      (insert-text-button (format "%-30s" label)
+      (insert-text-button (string-pad label (my/dashboard-label-width))
                           'action (lambda (_) (call-interactively command))
                           'follow-link t
                           'face 'dashboard-heading
