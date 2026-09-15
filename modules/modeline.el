@@ -53,10 +53,10 @@
 	(doom-modeline-def-segment my/buffer-percent
 		(when (doom-modeline--active)
 			`(:propertize (" " (-3 "%p") " ") face ,(doom-modeline-face 'doom-modeline-panel))))
-	;; line and column from one on the panel face in the selected window only, fixed widths so the right side doesnt shift
+	;; line and column from one on the panel face in the selected window only
 	(doom-modeline-def-segment my/buffer-position
 		(when (doom-modeline--active)
-			`(:propertize (" %3l:" (2 "%C") " ") face ,(doom-modeline-face 'doom-modeline-panel))))
+			`(:propertize " %l:%C " face ,(doom-modeline-face 'doom-modeline-panel))))
 	;; clock on the state face in the selected window only
 	(doom-modeline-def-segment my/time
 		(when (doom-modeline--active)
