@@ -6,6 +6,12 @@
 (use-package org
 	;; loads on the first org file or org command, not at startup
 	:defer t
+	:general
+	;; capture on its own key, agenda in the open group
+	(my/leader
+	 "X" #'org-capture
+	 "o" (cons "open" (make-sparse-keymap))
+	 "o a" #'org-agenda)
 	:custom
 	(org-directory my/org-directory)
 	;; agenda collects todos from every org file in the notes dir, only if the dir exists here

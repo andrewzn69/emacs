@@ -42,6 +42,12 @@
   (let ((default-directory my/config-directory))
     (call-interactively #'find-file)))
 
+;; recent files, cfg and last session under the leader
+(my/leader
+  "f r" #'recentf-open-files
+  "f p" #'my/open-config
+  "q l" #'my/load-session)
+
 ;; banner in a smaller font, centered by its scaled width, the prefix space gets the same face so lines shrink too
 (defun my/dashboard-insert-banner ()
   (let* ((text (with-temp-buffer

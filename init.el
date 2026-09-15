@@ -7,6 +7,9 @@
 ;; pkg manager first, modules install pkgs through it
 (load (expand-file-name "core/packages" my/config-directory) nil 'nomessage)
 
+;; leader map before local.el and modules so both can add keys to it
+(load (expand-file-name "core/leader" my/config-directory) nil 'nomessage)
+
 ;; per machine overrides, loaded before modules so their defaults dont replace them
 (let ((local (expand-file-name "local.el" my/config-directory)))
 	(when (file-exists-p local)

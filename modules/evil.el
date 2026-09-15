@@ -11,7 +11,11 @@
 	;; C-r redo through the built in undo redo
 	(evil-undo-system 'undo-redo)
 	:config
-	(evil-mode 1))
+	(evil-mode 1)
+	:general-config
+	;; window keys from C-w under the leader too
+	(my/leader
+	 "w" (cons "window" evil-window-map)))
 
 (use-package evil-collection
 	:after evil
