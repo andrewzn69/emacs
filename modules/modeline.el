@@ -27,8 +27,6 @@
 	;; minor mode lighters are hidden
 	(projectile-dynamic-mode-line nil)
 	:config
-	;; column next to the line number
-	(column-number-mode 1)
 	;; face of the current evil state, normal state face without evil and the mode line face for a state without its own
 	(defun my/modeline-state-face ()
 		(doom-modeline-face (if (bound-and-true-p evil-local-mode)
@@ -51,6 +49,14 @@
 				(concat (propertize " " 'face face)
 								(doom-modeline-icon 'powerline "nf-pl-branch" "" nil :face face)
 								(propertize (concat " " branch " ") 'face face)))))
+	;; share of the buffer above the window top on the panel face in the selected window only
+	(doom-modeline-def-segment my/buffer-percent
+		(when (doom-modeline--active)
+			`(:propertize (" " (-3 "%p") " ") face ,(doom-modeline-face 'doom-modeline-panel))))
+	;; line and column from one on the panel face in the selected window only, fixed widths so the right side doesnt shift
+	(doom-modeline-def-segment my/buffer-position
+		(when (doom-modeline--active)
+			`(:propertize (" %3l:" (2 "%C") " ") face ,(doom-modeline-face 'doom-modeline-panel))))
 	;; clock on the state face in the selected window only
 	(doom-modeline-def-segment my/time
 		(when (doom-modeline--active)
@@ -60,14 +66,19 @@
 								(propertize (concat " " (format-time-string my/modeline-time-format) " ") 'face face)))))
 	;; redraw on every full minute so the clock doesnt wait for input
 	(run-at-time t 60 #'force-mode-line-update t)
-	;; every layout starts with the state block and branch and ends with the clock, bar, modals, stock branch and stock time are dropped
+	;; every layout starts with the state block and branch and ends with the clock, bar, modals, stock branch, stock time and stock position are dropped
 	(doom-modeline-add-segment 'my/evil-state 'bar :before)
 	(doom-modeline-add-segment 'my/vcs-branch 'my/evil-state :after)
 	(doom-modeline-add-segment 'my/time 'time :after)
+	;; percent and position before the clock, skipping the layouts that never showed a position
+	(let ((doom-modeline-excluded-modelines '(minimal dashboard media pdf helm)))
+		(doom-modeline-add-segment 'my/buffer-percent 'my/time :before)
+		(doom-modeline-add-segment 'my/buffer-position 'my/time :before))
 	(doom-modeline-remove-segment 'bar)
 	(doom-modeline-remove-segment 'modals)
 	(doom-modeline-remove-segment 'vcs)
 	(doom-modeline-remove-segment 'time)
+	(doom-modeline-remove-segment 'buffer-position)
 	(doom-modeline-mode 1))
 
 ;; match count while searching, drawn by the mode line
