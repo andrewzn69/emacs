@@ -50,20 +50,22 @@
   "f p" #'my/open-config
   "q l" #'my/load-session)
 
-;; banner in a smaller font, centered by its scaled width, the prefix space gets the same face so lines shrink too
+;; banner in a smaller font, the prefix space gets the same face so lines shrink too
 (defun my/dashboard-insert-banner ()
-  (let* ((text (with-temp-buffer
-                 (insert-file-contents my/dashboard-banner)
-                 (buffer-string)))
-         (scale (if (display-graphic-p) my/dashboard-banner-height 1))
-         (width (apply #'max (mapcar #'string-width (split-string text "\n"))))
+  (let* ((text (propertize (with-temp-buffer
+                             (insert-file-contents my/dashboard-banner)
+                             (buffer-string))
+                           'face 'dashboard-text-banner))
+         ;; rendered width of the widest line in default columns, the same measure the menu is centered by
+         ;; so the smaller face and the font that draws the glyphs both count
+         (width (/ (string-pixel-width text) (float (frame-char-width))))
          (prefix (propertize " "
                              'face 'dashboard-text-banner
-                             'display `(space :align-to (- center ,(/ (* width scale) 2.0)))))
+                             'display `(space :align-to (- center ,(/ width 2)))))
          (start (point)))
     (insert text)
     (add-text-properties start (point)
-                         `(face dashboard-text-banner line-prefix ,prefix wrap-prefix ,prefix))))
+                         `(line-prefix ,prefix wrap-prefix ,prefix))))
 
 ;; key column starts a fixed gap after the longest label, so every key lines up
 (defun my/dashboard-label-width ()
