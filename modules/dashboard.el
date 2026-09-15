@@ -108,6 +108,11 @@
 
 ;; cursor goes to the entry on its line, else the entry above, else the first entry
 (defun my/dashboard-snap-to-menu ()
+  ;; a mouse drag or a visual state key leaves no selection behind
+  (when (and (bound-and-true-p evil-local-mode) (evil-visual-state-p))
+    (evil-exit-visual-state))
+  (when (region-active-p)
+    (deactivate-mark))
   (let ((starts (my/dashboard-menu-starts))
         (bol (line-beginning-position))
         (eol (line-end-position)))
