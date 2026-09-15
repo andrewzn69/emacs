@@ -18,4 +18,5 @@
 ;; code, text and conf buffers only, global versions would also hit dashboard, magit and pdfs
 (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
 	(add-hook hook #'display-line-numbers-mode)
-	(add-hook hook #'my/truncate-lines))
+	(add-hook hook #'my/truncate-lines)
+	(add-hook hook #'hl-line-mode))
