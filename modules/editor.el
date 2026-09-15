@@ -31,14 +31,20 @@
 	(let ((reached (move-to-column column))
 				(overlay nil))
 		(cond
-		 ;; a tab spans several columns, drawn as spaces so only the cell at the column is colored
-		 ((and (> reached column) (eq (char-before) ?\t))
-			(let ((start (save-excursion (backward-char) (current-column))))
+		 ;; a tab spans several columns, the column either sits on it or inside it
+		 ((or (and (= reached column) (eq (char-after) ?\t))
+					(and (> reached column) (eq (char-before) ?\t)))
+			;; point stops on a tab that starts at the column, past one it runs into
+			(when (= reached column)
+				(forward-char))
+			;; drawn as spaces so only the cell at the column is colored
+			(let ((start (save-excursion (backward-char) (current-column)))
+						(end (current-column)))
 				(setq overlay (make-overlay (1- (point)) (point)))
 				(overlay-put overlay 'display
 										 (concat (make-string (- column start) ?\s)
 														 (propertize " " 'face 'my/column-highlight)
-														 (make-string (- reached column 1) ?\s)))))
+														 (make-string (- end column 1) ?\s)))))
 		 ;; a wide character keeps its glyph so the whole character is colored
 		 ((> reached column)
 			(setq overlay (make-overlay (1- (point)) (point)))
