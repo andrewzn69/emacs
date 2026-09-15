@@ -139,6 +139,10 @@
   (add-hook 'post-command-hook #'my/dashboard-snap-to-menu nil t)
   (my/dashboard-snap-to-menu))
 
+;; mouse hover prints the entry help in the echo area like keyboard movement, tooltips stay on everywhere else
+(defun my/dashboard-echo-hover-help ()
+  (setq-local show-help-function #'tooltip-show-help-non-mode))
+
 ;; old padding removed, then half the free window height added as empty lines on top
 ;; measured in pixels because the banner lines are shorter than normal lines
 (defun my/dashboard-center-vertically (window)
@@ -209,6 +213,7 @@
 	;; every render ends in dashboard mode, startup then moves the cursor to the top again
 	(add-hook 'dashboard-mode-hook #'my/dashboard-trap-cursor)
   (add-hook 'dashboard-mode-hook #'my/dashboard-keep-centered)
+  (add-hook 'dashboard-mode-hook #'my/dashboard-echo-hover-help)
 	(add-hook 'dashboard-after-initialize-hook #'my/dashboard-snap-to-menu)
 	;; line and widget movement jumps between menu items instead
 	(dolist (command '(dashboard-next-line next-line widget-forward
