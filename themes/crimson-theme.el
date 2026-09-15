@@ -74,6 +74,8 @@
 	 `(whitespace-space ((t :foreground ,bg2)))                             ; Whitespace
 	 `(whitespace-tab ((t :foreground ,bg2)))                               ; Whitespace
 	 `(whitespace-newline ((t :foreground ,bg2)))                           ; Whitespace
+	 `(my/indent-bar ((t :foreground ,bg2)))                                ; IblIndent
+	 `(my/indent-bar-current ((t :foreground ,fg4)))                        ; MiniIndentscopeSymbol
 	 `(error ((t :foreground ,red :weight bold)))                           ; GruvboxRedBold
 	 `(warning ((t :foreground ,yellow :weight bold)))                      ; GruvboxYellowBold
 	 `(success ((t :foreground ,green :weight bold)))                       ; GruvboxGreenBold
