@@ -36,10 +36,21 @@
 				(when (stringp tag)
 					(propertize tag 'face (doom-modeline-face
 																 (intern (format "doom-modeline-evil-%s-state" evil-state))))))))
-	;; every layout starts with the state block, the bar and the space padded modals segment are dropped
+	;; branch on the panel face in the selected window only
+	(doom-modeline-def-segment my/vcs-branch
+		(when (and vc-mode (doom-modeline--active))
+			(let ((face (doom-modeline-face 'doom-modeline-panel))
+						;; vc text minus the backend name and every state marker, percent doubled so the mode line prints it
+						(branch (string-replace "%" "%%" (replace-regexp-in-string "\\`[[:space:]]*[[:alpha:]]*[-:@!?]" "" vc-mode))))
+				(concat (propertize " " 'face face)
+								(doom-modeline-icon 'powerline "nf-pl-branch" "" nil :face face)
+								(propertize (concat " " branch " ") 'face face)))))
+	;; every layout starts with the state block and branch, the bar, the space padded modals and the right side branch are dropped
 	(doom-modeline-add-segment 'my/evil-state 'bar :before)
+	(doom-modeline-add-segment 'my/vcs-branch 'my/evil-state :after)
 	(doom-modeline-remove-segment 'bar)
 	(doom-modeline-remove-segment 'modals)
+	(doom-modeline-remove-segment 'vcs)
 	(doom-modeline-mode 1))
 
 ;; match count while searching, drawn by the mode line
