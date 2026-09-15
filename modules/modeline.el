@@ -14,9 +14,6 @@
 
 (use-package doom-modeline
 	:custom
-	(doom-modeline-bar-width 3)
-	;; state name text instead of an icon
-	(doom-modeline-modal-icon nil)
 	;; error and warning counts only
 	(doom-modeline-check 'simple)
 	;; path starts at the project folder
@@ -30,6 +27,19 @@
 	;; column and file size next to the line number
 	(column-number-mode 1)
 	(size-indication-mode 1)
+	;; state name on its state face in the selected window only, a state without its own face gets the mode line face
+	(doom-modeline-def-segment my/evil-state
+		(when (and (bound-and-true-p evil-local-mode) (doom-modeline--active))
+			(let ((tag (evil-state-property evil-state :tag t)))
+				(when (functionp tag)
+					(setq tag (funcall tag)))
+				(when (stringp tag)
+					(propertize tag 'face (doom-modeline-face
+																 (intern (format "doom-modeline-evil-%s-state" evil-state))))))))
+	;; every layout starts with the state block, the bar and the space padded modals segment are dropped
+	(doom-modeline-add-segment 'my/evil-state 'bar :before)
+	(doom-modeline-remove-segment 'bar)
+	(doom-modeline-remove-segment 'modals)
 	(doom-modeline-mode 1))
 
 ;; match count while searching, drawn by the mode line

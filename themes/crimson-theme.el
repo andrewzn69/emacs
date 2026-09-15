@@ -88,8 +88,6 @@
 	 `(mode-line ((t :foreground ,fg4 :background ,surface0 :box nil)))     ; lualine section c
 	 `(mode-line-active ((t :inherit mode-line)))
 	 `(mode-line-inactive ((t :foreground ,fg4 :background ,surface0 :box nil))) ; lualine inactive
-	 `(doom-modeline-bar ((t :background ,coral)))                          ; lualine normal mode
-	 `(doom-modeline-bar-inactive ((t :background ,surface0)))              ; lualine section c
 	 `(doom-modeline-panel ((t :foreground ,fg4 :background ,surface2)))    ; lualine section b
 	 `(doom-modeline-evil-normal-state ((t :foreground ,bg0 :background ,coral :weight bold)))            ; lualine normal section a
 	 `(doom-modeline-evil-operator-state ((t :foreground ,bg0 :background ,coral :weight bold)))          ; lualine normal section a
