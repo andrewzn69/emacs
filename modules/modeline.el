@@ -80,6 +80,9 @@
 	(let ((doom-modeline-excluded-modelines '(minimal dashboard media pdf helm)))
 		(doom-modeline-add-segment 'my/buffer-percent 'my/time :before)
 		(doom-modeline-add-segment 'my/buffer-position 'my/time :before))
+	;; search count and macro recording go between the position and the clock, removed first since removal drops every copy
+	(doom-modeline-remove-segment 'matches)
+	(doom-modeline-add-segment 'matches 'my/time :before)
 	(doom-modeline-remove-segment 'bar)
 	(doom-modeline-remove-segment 'modals)
 	(doom-modeline-remove-segment 'vcs)
