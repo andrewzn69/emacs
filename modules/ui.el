@@ -1,17 +1,13 @@
 ;;; ui.el --- Theme and font -*- lexical-binding: t; -*-
 
 ;; defaults
-(defvar my/theme 'gruvbox-dark-hard)
+(defvar my/theme 'crimson)
 (defvar my/font-family "JetBrainsMono Nerd Font")
 (defvar my/font-height 98)
 
-;; autothemer json export cmds call json encode without loading json
-(with-eval-after-load 'autothemer
-  (require 'json))
-
-(use-package gruvbox-theme
-	:config
-	(load-theme my/theme t))
+;; themes shipped in this repo
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" my/config-directory))
+(load-theme my/theme t)
 
 ;; font only on gui frames and only if installed
 (defun my/apply-font (&optional frame)

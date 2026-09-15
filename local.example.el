@@ -9,7 +9,7 @@
 ;; (setq my/modules (remove 'pdf my/modules))
 
 ;; theme and font
-;; (setq my/theme 'gruvbox-dark-soft)
+;; (setq my/theme 'modus-vivendi)
 ;; (setq my/font-family "JetBrainsMono Nerd Font")
 ;; (setq my/font-height 160)
 
