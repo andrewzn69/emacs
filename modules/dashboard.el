@@ -70,7 +70,10 @@
            (icon-fn (nth 1 item))
            (icon (nth 2 item))
            (command (nth 3 item))
-           (key (where-is-internal command nil t)))
+           ;; leader map searched on its own, a plain lookup at startup shows evil state names or the emacs own keys
+           (key (if-let* ((leader (where-is-internal command (list my/leader-map) t)))
+                    (concat my/leader-key " " (key-description leader))
+                  (key-description (where-is-internal command nil t)))))
       (when (dashboard-display-icons-p)
         (insert (format "%-3s" (funcall icon-fn icon :face 'dashboard-heading))))
       (insert-text-button (format "%-30s" label)
@@ -82,7 +85,7 @@
                                              (propertize (symbol-name command) 'face 'font-lock-constant-face))
 													;; marks entries the cursor can sit on
 													'my/dashboard-menu t)
-      (insert (propertize (if key (key-description key) "") 'face 'font-lock-constant-face)
+      (insert (propertize key 'face 'font-lock-constant-face)
               "\n\n"))))
 
 ;; start of every marked entry, top to bottom

@@ -2,6 +2,8 @@
 
 ;; one prefix map holds every leader key, modules add theirs with the definer in their use-package block
 (defvar my/leader-map (make-sparse-keymap))
+;; one place for the key, the dashboard menu shows it in front of each entry key
+(defvar my/leader-key "SPC")
 
 (use-package general
   :config
@@ -13,7 +15,7 @@
      :states '(normal visual motion insert emacs)
      :keymaps 'override
      :prefix-map 'my/leader-map
-     :prefix "SPC"
+     :prefix my/leader-key
      :non-normal-prefix "M-SPC"))
   ;; built in commands, a string paired with a map names the group in the key popup
   (my/leader
