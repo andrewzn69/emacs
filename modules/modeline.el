@@ -24,9 +24,8 @@
 	;; minor mode lighters are hidden
 	(projectile-dynamic-mode-line nil)
 	:config
-	;; column and file size next to the line number
+	;; column next to the line number
 	(column-number-mode 1)
-	(size-indication-mode 1)
 	;; state name on its state face in the selected window only, a state without its own face gets the mode line face
 	(doom-modeline-def-segment my/evil-state
 		(when (and (bound-and-true-p evil-local-mode) (doom-modeline--active))
