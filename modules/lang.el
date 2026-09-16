@@ -58,6 +58,27 @@
 			(lsp-disconnect)
 		(lsp-deferred)))
 
+;; one glyph per symbol kind, ordered the way the protocol numbers them
+(defvar my/lsp-symbol-icons
+	["" "󰏗" "󰌗" "" "" "󰊕" "" "" "󰊕" "" "󰕘" "󰊕" "" ""
+	 "󰀬" "󰎠" "◩" "󰅨" "󰅩" "󰌋" "󰟢" "" "󰌗" "" "󰆕" "󰊄"])
+
+;; the bundled lookups want an icon pkg with a second font, the loaded one covers both
+(defun my/lsp-symbol-icon (kind &optional feature)
+	(when (and kind (lsp-icons--enabled-for-feature feature))
+		(aref my/lsp-symbol-icons (1- kind))))
+
+(defun my/lsp-file-icon (ext &optional feature)
+	(when (and ext (lsp-icons--enabled-for-feature feature))
+		(nerd-icons-icon-for-extension ext)))
+
+;; every piece is drawn behind a separator, so the row opens with one that separates nothing
+(defun my/breadcrumb-strip-lead (string)
+	(let ((lead (concat (lsp-headerline--arrow-icon) " ")))
+		(if (string-prefix-p lead string)
+				(substring string (length lead))
+			string)))
+
 (use-package lsp-mode
 	:init
 	;; every lsp key goes through the leader, the built in prefix stays free
@@ -72,13 +93,17 @@
 	;; the sideline and the checker already show what these would repeat
 	(lsp-modeline-diagnostics-enable nil)
 	(lsp-modeline-code-actions-enable nil)
-	;; the symbol path across the top of the window
-	(lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+	;; the file and the symbol path across the top of the window, the directories stay out
+	(lsp-headerline-breadcrumb-segments '(file symbols))
 	;; how long typing has to stop before highlights and lenses refresh
 	(lsp-idle-delay 0.5)
 	;; the key popup lists the lsp keys under their prefix, the normal state keys wait for a server
 	:hook ((lsp-mode . lsp-enable-which-key-integration)
 				 (lsp-after-open . my/lsp-keys))
+	:config
+	(advice-add 'lsp-icons-get-by-symbol-kind :override #'my/lsp-symbol-icon)
+	(advice-add 'lsp-icons-get-by-file-ext :override #'my/lsp-file-icon)
+	(advice-add 'lsp-headerline--build-string :filter-return #'my/breadcrumb-strip-lead)
 	:general-config
 	(my/leader
 		"l" (cons "lsp" (make-sparse-keymap))
