@@ -96,14 +96,10 @@
 		(remove-hook 'window-scroll-functions #'my/column-highlight-draw t)
 		(remove-hook 'change-major-mode-hook #'my/column-highlight-clear t)))
 
-;; indent guides, the theme sets both colors
+;; indent guides, the theme sets the color
 (defface my/indent-bar
 	'((t :inherit shadow))
 	"Face for the indent guides.")
-
-(defface my/indent-bar-current
-	'((t :inherit shadow))
-	"Face for the indent guide at the current depth.")
 
 ;; code and config files, indentation carries no structure in prose
 (use-package indent-bars
@@ -113,7 +109,14 @@
 	(indent-bars-color '(my/indent-bar))
 	;; one color for every level instead of a color per depth
 	(indent-bars-color-by-depth nil)
-	(indent-bars-highlight-current-depth '(:face my/indent-bar-current))
+	;; first bar at the left edge, the package would start it one indent step in
+	(indent-bars-starting-column 0)
+	;; a bar every two columns in every mode, guessing per mode puts them elsewhere
+	(indent-bars-spacing-override 2)
+	;; blank lines follow their shallower neighbour
+	(indent-bars-display-on-blank-lines 'least)
+	;; no depth highlight, it colors that depth on every visible line instead of the block at point
+	(indent-bars-highlight-current-depth nil)
 	:hook ((prog-mode . indent-bars-mode)
 				 (conf-mode . indent-bars-mode)))
 
