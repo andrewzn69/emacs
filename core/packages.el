@@ -29,3 +29,13 @@
 
 ;; built-in use-package, straight.el hooks into it as soon as it loads
 (require 'use-package)
+
+;; the default threshold fills while a server and the popup allocate, so collection lands mid scroll
+(use-package gcmh
+	:custom
+	;; high enough that typing and scrolling never reach it, low enough that the heap stays in memory
+	(gcmh-high-cons-threshold (* 128 1024 1024))
+	;; the wait before collecting scales with how long the last one took
+	(gcmh-idle-delay 'auto)
+	:config
+	(gcmh-mode 1))
