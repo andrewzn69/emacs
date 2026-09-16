@@ -3,6 +3,7 @@
 ;; defaults, local.el can override them
 ;; relative so line motion counts read off the gutter, t or visual also work
 (defvar my/line-numbers-type 'relative)
+(defvar my/tab-width 2)
 
 ;; reopening a file puts the cursor back where it was, positions saved in the state dir
 (save-place-mode 1)
@@ -10,6 +11,8 @@
 (setq display-line-numbers-type my/line-numbers-type)
 ;; width counted from the buffer lines up front so text doesnt shift when a longer number scrolls into view
 (setq display-line-numbers-width-start t)
+
+(setq-default tab-width my/tab-width)
 
 ;; long lines run past the window edge instead of wrapping onto the next row
 (defun my/truncate-lines ()
