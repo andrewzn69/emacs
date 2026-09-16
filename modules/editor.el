@@ -96,29 +96,22 @@
 		(remove-hook 'window-scroll-functions #'my/column-highlight-draw t)
 		(remove-hook 'change-major-mode-hook #'my/column-highlight-clear t)))
 
-;; indent guides, the theme sets the color
-(defface my/indent-bar
-	'((t :inherit shadow))
-	"Face for the indent guides.")
+;; indent guides, off until the bars line up with the indent width
+;; (defface my/indent-bar
+;; 	'((t :inherit shadow))
+;; 	"Face for the indent guides.")
 
-;; code and config files, indentation carries no structure in prose
-(use-package indent-bars
-	:custom
-	;; the same vertical character the editor guides use, a drawn bar needs stipple support the build may lack
-	(indent-bars-prefer-character t)
-	(indent-bars-color '(my/indent-bar))
-	;; one color for every level instead of a color per depth
-	(indent-bars-color-by-depth nil)
-	;; first bar at the left edge, the package would start it one indent step in
-	(indent-bars-starting-column 0)
-	;; a bar every two columns in every mode, guessing per mode puts them elsewhere
-	(indent-bars-spacing-override 2)
-	;; blank lines follow their shallower neighbour
-	(indent-bars-display-on-blank-lines 'least)
-	;; no depth highlight, it colors that depth on every visible line instead of the block at point
-	(indent-bars-highlight-current-depth nil)
-	:hook ((prog-mode . indent-bars-mode)
-				 (conf-mode . indent-bars-mode)))
+;; (use-package indent-bars
+;; 	:custom
+;; 	(indent-bars-prefer-character t)
+;; 	(indent-bars-color '(my/indent-bar))
+;; 	(indent-bars-color-by-depth nil)
+;; 	(indent-bars-starting-column 0)
+;; 	(indent-bars-spacing-override 2)
+;; 	(indent-bars-display-on-blank-lines 'least)
+;; 	(indent-bars-highlight-current-depth nil)
+;; 	:hook ((prog-mode . indent-bars-mode)
+;; 				 (conf-mode . indent-bars-mode)))
 
 ;; code, text and conf buffers only, global versions would also hit dashboard, magit and pdfs
 (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
