@@ -22,6 +22,15 @@
 ;; highlighting only, no server ships for these templates
 (use-package jinja2-mode :defer t)
 
+;; the checker messages for the line in a floating window, eldoc shows one source at a time and the server takes it
+(defun my/diagnostic-box ()
+	(interactive)
+	(require 'eldoc-box)
+	(if-let* ((diags (flymake-diagnostics (line-beginning-position)
+																				(line-end-position))))
+			(eldoc-box--display (mapconcat #'flymake-diagnostic-text diags "\n\n"))
+		(message "no problem on this line")))
+
 ;; stops the server for the buffer or starts one again
 (defun my/lsp-toggle ()
 	(interactive)
@@ -65,7 +74,7 @@
 		"l o" #'lsp-ui-imenu
 		"l I" #'lsp-describe-session
 		"l s" #'lsp-signature-activate
-		"l E" #'eldoc-box-help-at-point
+		"l E" #'my/diagnostic-box
 		"l t" #'my/lsp-toggle
 		"l l" #'lsp-ui-sideline-mode
 		"r" (cons "refactor" (make-sparse-keymap))
