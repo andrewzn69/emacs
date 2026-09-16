@@ -65,7 +65,7 @@
 		"l o" #'lsp-ui-imenu
 		"l I" #'lsp-describe-session
 		"l s" #'lsp-signature-activate
-		"l E" #'flymake-show-diagnostic
+		"l E" #'eldoc-box-help-at-point
 		"l t" #'my/lsp-toggle
 		"l l" #'lsp-ui-sideline-mode
 		"r" (cons "refactor" (make-sparse-keymap))
@@ -77,6 +77,12 @@
 		"/" (cons "search" (make-sparse-keymap))
 		"/ l" (cons "lsp" (make-sparse-keymap))
 		"/ l r" #'lsp-ui-peek-find-references))
+
+;; the problem under the cursor in a floating window, the checker feeds its text to eldoc
+(use-package eldoc-box
+	:defer t
+	:custom
+	(eldoc-box-clear-with-C-g t))
 
 ;; python goes through its own client, the bundled ones start a different server
 (use-package lsp-pyright
