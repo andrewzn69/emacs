@@ -58,7 +58,9 @@
 	 `(window-divider ((t :foreground ,surface2)))                          ; WinSeparator
 	 `(window-divider-first-pixel ((t :foreground ,surface2)))              ; WinSeparator
 	 `(window-divider-last-pixel ((t :foreground ,surface2)))               ; WinSeparator
-	 `(header-line ((t :foreground ,fg4 :background ,bg0)))                 ; WinBar
+	 ;; a box in the background color reads as padding and lifts the row off the text
+	 `(header-line ((t :foreground ,fg4 :background ,bg0
+										 :box (:line-width (8 . 4) :color ,bg0))))          ; WinBar
 	 `(tooltip ((t :foreground ,fg1 :background ,surface0)))                ; NormalFloat
 	 `(child-frame-border ((t :background ,surface0)))                      ; FloatBorder
 	 `(tab-bar ((t :foreground ,bg4 :background ,bg1)))                     ; TabLineFill
