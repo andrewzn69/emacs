@@ -142,6 +142,10 @@
 	 `(compilation-warning ((t :foreground ,yellow)))                       ; DiagnosticSignWarn
 	 `(compilation-info ((t :foreground ,blue)))                            ; DiagnosticSignInfo
 
+	 ;; breadcrumb
+	 `(lsp-headerline-breadcrumb-path-face ((t :foreground ,fg1)))          ; NavicText
+	 `(lsp-headerline-breadcrumb-symbols-face ((t :foreground ,fg1 :weight bold))) ; NavicText
+
 	 ;; diffs
 	 `(diff-added ((t :background ,dark-green :extend t)))                  ; DiffAdd
 	 `(diff-removed ((t :background ,dark-red :extend t)))                  ; DiffDelete
