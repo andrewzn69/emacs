@@ -3,7 +3,7 @@
 ;; defaults
 (defvar my/theme 'crimson)
 (defvar my/font-family "JetBrainsMono Nerd Font")
-(defvar my/font-height 98)
+(defvar my/font-height 110)
 
 ;; themes shipped in this repo
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" my/config-directory))
