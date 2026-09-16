@@ -37,6 +37,12 @@
 				(run-with-timer 0.1 nil #'eldoc-box--help-at-point-cleanup))
 		(message "no problem on this line")))
 
+;; set per buffer so a major mode cannot keep the key, lua binds K to its own manual search
+(defun my/lsp-keys ()
+	(evil-local-set-key 'normal (kbd "K") #'lsp-ui-doc-glance)
+	(evil-local-set-key 'normal (kbd "gi") #'lsp-find-implementation)
+	(evil-local-set-key 'normal (kbd "gI") #'lsp-ui-peek-find-implementation))
+
 ;; stops the server for the buffer or starts one again
 (defun my/lsp-toggle ()
 	(interactive)
@@ -62,15 +68,10 @@
 	(lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
 	;; how long typing has to stop before highlights and lenses refresh
 	(lsp-idle-delay 0.5)
-	;; the key popup lists the lsp keys under their prefix
-	:hook (lsp-mode . lsp-enable-which-key-integration)
+	;; the key popup lists the lsp keys under their prefix, the normal state keys wait for a server
+	:hook ((lsp-mode . lsp-enable-which-key-integration)
+				 (lsp-after-open . my/lsp-keys))
 	:general-config
-	;; only where a server is attached, K stays the manual lookup everywhere else
-	(:states '(normal visual)
-	 :keymaps 'lsp-mode-map
-	 "K" #'lsp-ui-doc-glance
-	 "g i" #'lsp-find-implementation
-	 "g I" #'lsp-ui-peek-find-implementation)
 	(my/leader
 		"l" (cons "lsp" (make-sparse-keymap))
 		"l D" #'lsp-find-definition
