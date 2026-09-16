@@ -28,7 +28,13 @@
 	(require 'eldoc-box)
 	(if-let* ((diags (flymake-diagnostics (line-beginning-position)
 																				(line-end-position))))
-			(eldoc-box--display (mapconcat #'flymake-diagnostic-text diags "\n\n"))
+			(progn
+				;; beside the cursor instead of the frame corner the hover popup uses
+				(let ((eldoc-box-position-function eldoc-box-at-point-position-function))
+					(eldoc-box--display (mapconcat #'flymake-diagnostic-text diags "\n\n")))
+				;; polls until the cursor leaves the spot it opened at, then closes itself
+				(setq eldoc-box--help-at-point-last-point (point))
+				(run-with-timer 0.1 nil #'eldoc-box--help-at-point-cleanup))
 		(message "no problem on this line")))
 
 ;; stops the server for the buffer or starts one again
@@ -89,9 +95,7 @@
 
 ;; the problem under the cursor in a floating window, the checker feeds its text to eldoc
 (use-package eldoc-box
-	:defer t
-	:custom
-	(eldoc-box-clear-with-C-g t))
+	:defer t)
 
 ;; python goes through its own client, the bundled ones start a different server
 (use-package lsp-pyright
