@@ -95,6 +95,8 @@
 	(lsp-modeline-code-actions-enable nil)
 	;; the file and the symbol path across the top of the window, the directories stay out
 	(lsp-headerline-breadcrumb-segments '(file symbols))
+	;; the severity of everything below a piece is drawn onto it as a wave in colors of its own
+	(lsp-headerline-breadcrumb-enable-diagnostics nil)
 	;; how long typing has to stop before highlights and lenses refresh
 	(lsp-idle-delay 0.5)
 	;; the key popup lists the lsp keys under their prefix, the normal state keys wait for a server
