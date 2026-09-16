@@ -60,7 +60,7 @@
 
 ;; one glyph and its color per symbol kind, ordered the way the protocol numbers them
 (defvar my/lsp-symbol-icons
-	[("" . font-lock-variable-name-face)         ; File
+	[("" . font-lock-variable-name-face)          ; File
 	 ("󰏗" . font-lock-preprocessor-face)           ; Module
 	 ("󰌗" . font-lock-preprocessor-face)           ; Namespace
 	 ("" . font-lock-preprocessor-face)           ; Package
@@ -72,7 +72,7 @@
 	 ("" . font-lock-type-face)                   ; Enum
 	 ("󰕘" . font-lock-type-face)                   ; Interface
 	 ("󰊕" . font-lock-function-name-face)          ; Function
-	 ("" . font-lock-variable-name-face)          ; Variable
+	 ("" . font-lock-constant-face)               ; Variable
 	 ("" . font-lock-constant-face)               ; Constant
 	 ("󰀬" . font-lock-builtin-face)                ; String
 	 ("󰎠" . font-lock-number-face)                 ; Number
