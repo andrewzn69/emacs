@@ -5,6 +5,8 @@
 (defvar my/font-family "JetBrainsMono Nerd Font")
 ;; size in points, the terminal is set to the same number
 (defvar my/font-point-size 11.0)
+;; a step above regular
+(defvar my/font-weight "medium")
 
 ;; themes shipped in this repo
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" my/config-directory))
@@ -22,8 +24,8 @@
 				(setq ftcr-font-size-scale (/ exact rounded))
 				;; leading off so the line box is rounded once instead of ascent and descent apart
 				(set-face-attribute 'default nil :font
-														(format "%s:pixelsize=%d:minspace=false"
-																		my/font-family rounded))))))
+														(format "%s:pixelsize=%d:weight=%s:minspace=false"
+																		my/font-family rounded my/font-weight))))))
 
 ;; apply now and again for every new frame the daemon opens
 (my/apply-font)
