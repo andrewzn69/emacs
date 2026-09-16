@@ -1,0 +1,40 @@
+Render glyphs at the unrounded pixel size
+
+Emacs converts a point size to pixels with POINT_TO_PIXEL, which rounds to a
+whole number, and hands that integer to Cairo.  At 11pt and 96dpi the real
+size is 14.67px and Emacs draws 15px, so glyphs and every line come out taller
+than the same font at the same size elsewhere.  Cairo's font matrix takes
+doubles, so scale the size back down on the way in.  The integer stays in
+place for layout.
+
+--- a/src/ftcrfont.c
++++ b/src/ftcrfont.c
+@@ -169,7 +169,11 @@ ftcrfont_open (struct frame *f, Lisp_Object entity, int pixel_size)
+       return Qnil;
+     }
+   cairo_matrix_t font_matrix, ctm;
+-  cairo_matrix_init_scale (&font_matrix, pixel_size, pixel_size);
++  double render_size = pixel_size;
++  if (FLOATP (Vftcr_font_size_scale)
++      && XFLOAT_DATA (Vftcr_font_size_scale) > 0)
++    render_size *= XFLOAT_DATA (Vftcr_font_size_scale);
++  cairo_matrix_init_scale (&font_matrix, render_size, render_size);
+   cairo_matrix_init_identity (&ctm);
+
+ #ifdef HAVE_PGTK
+@@ -763,6 +767,15 @@ void
+ syms_of_ftcrfont (void)
+ {
+   DEFSYM (Qftcr, "ftcr");
++
++  DEFVAR_LISP ("ftcr-font-size-scale", Vftcr_font_size_scale,
++	       doc: /* Fraction of the rounded pixel size to draw glyphs at.
++Emacs rounds a size in points to a whole number of pixels before opening a
++font.  A positive float here scales that number on the way to Cairo, so
++glyphs are drawn at the size the point size actually asks for.  Any other
++value means no scaling.  */);
++  Vftcr_font_size_scale = Qnil;
++
+ #ifdef HAVE_HARFBUZZ
+   DEFSYM (Qftcrhb, "ftcrhb");
+   Fput (Qftcr, Qfont_driver_superseded_by, Qftcrhb);
