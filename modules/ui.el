@@ -5,8 +5,7 @@
 (defvar my/font-family "JetBrainsMono Nerd Font")
 ;; size in points, the terminal is set to the same number
 (defvar my/font-point-size 11.0)
-;; a step above regular
-(defvar my/font-weight "medium")
+(defvar my/font-weight "regular")
 
 ;; themes shipped in this repo
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" my/config-directory))
