@@ -64,15 +64,13 @@
 	(lsp-idle-delay 0.5)
 	;; the key popup lists the lsp keys under their prefix
 	:hook (lsp-mode . lsp-enable-which-key-integration)
-	:config
+	:general-config
 	;; only where a server is attached, K stays the manual lookup everywhere else
-	(general-define-key
-	 :states '(normal visual)
+	(:states '(normal visual)
 	 :keymaps 'lsp-mode-map
 	 "K" #'lsp-ui-doc-glance
 	 "g i" #'lsp-find-implementation
 	 "g I" #'lsp-ui-peek-find-implementation)
-	:general-config
 	(my/leader
 		"l" (cons "lsp" (make-sparse-keymap))
 		"l D" #'lsp-find-definition
