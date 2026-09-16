@@ -125,5 +125,7 @@
 	(lsp-ui-sideline-show-hover nil)
 	;; the popup opens on the key rather than following the cursor
 	(lsp-ui-doc-show-with-cursor nil)
+	;; pointer tracking turns every pixel of mouse motion into a redisplay
+	(lsp-ui-doc-show-with-mouse nil)
 	(lsp-ui-doc-position 'at-point)
 	:hook (lsp-mode . lsp-ui-mode))
