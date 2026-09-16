@@ -37,9 +37,17 @@
 				(run-with-timer 0.1 nil #'eldoc-box--help-at-point-cleanup))
 		(message "no problem on this line")))
 
+;; servers answer nothing for keywords and a key that does nothing reads as broken
+(defun my/lsp-hover ()
+	(interactive)
+	(if (lsp:hover-contents
+			 (lsp-request "textDocument/hover" (lsp--text-document-position-params)))
+			(lsp-ui-doc-glance)
+		(message "No information available")))
+
 ;; set per buffer so a major mode cannot keep the key, lua binds K to its own manual search
 (defun my/lsp-keys ()
-	(evil-local-set-key 'normal (kbd "K") #'lsp-ui-doc-glance)
+	(evil-local-set-key 'normal (kbd "K") #'my/lsp-hover)
 	(evil-local-set-key 'normal (kbd "gi") #'lsp-find-implementation)
 	(evil-local-set-key 'normal (kbd "gI") #'lsp-ui-peek-find-implementation))
 
