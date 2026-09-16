@@ -110,9 +110,10 @@
 (use-package lsp-ui
 	:after lsp-mode
 	:custom
-	;; the line at point carries its own diagnostics and actions to the right
+	;; the line at point carries its own diagnostics to the right
 	(lsp-ui-sideline-show-diagnostics t)
-	(lsp-ui-sideline-show-code-actions t)
+	;; servers offer the same action on every line they flag, the leader key reaches them instead
+	(lsp-ui-sideline-show-code-actions nil)
 	;; hover text belongs in the popup, the sideline row stays short
 	(lsp-ui-sideline-show-hover nil)
 	;; the popup opens on the key rather than following the cursor
