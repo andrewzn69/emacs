@@ -58,15 +58,40 @@
 			(lsp-disconnect)
 		(lsp-deferred)))
 
-;; one glyph per symbol kind, ordered the way the protocol numbers them
+;; one glyph and its color per symbol kind, ordered the way the protocol numbers them
 (defvar my/lsp-symbol-icons
-	["" "󰏗" "󰌗" "" "" "󰊕" "" "" "󰊕" "" "󰕘" "󰊕" "" ""
-	 "󰀬" "󰎠" "◩" "󰅨" "󰅩" "󰌋" "󰟢" "" "󰌗" "" "󰆕" "󰊄"])
+	[("" . font-lock-variable-name-face)         ; File
+	 ("󰏗" . font-lock-preprocessor-face)           ; Module
+	 ("󰌗" . font-lock-preprocessor-face)           ; Namespace
+	 ("" . font-lock-preprocessor-face)           ; Package
+	 ("" . font-lock-type-face)                   ; Class
+	 ("󰊕" . font-lock-function-name-face)          ; Method
+	 ("" . font-lock-property-name-face)          ; Property
+	 ("" . font-lock-property-name-face)          ; Field
+	 ("󰊕" . font-lock-function-name-face)          ; Constructor
+	 ("" . font-lock-type-face)                   ; Enum
+	 ("󰕘" . font-lock-type-face)                   ; Interface
+	 ("󰊕" . font-lock-function-name-face)          ; Function
+	 ("" . font-lock-variable-name-face)          ; Variable
+	 ("" . font-lock-constant-face)               ; Constant
+	 ("󰀬" . font-lock-builtin-face)                ; String
+	 ("󰎠" . font-lock-number-face)                 ; Number
+	 ("◩" . font-lock-builtin-face)                ; Boolean
+	 ("󰅨" . font-lock-type-face)                   ; Array
+	 ("󰅩" . font-lock-type-face)                   ; Object
+	 ("󰌋" . font-lock-property-name-face)          ; Key
+	 ("󰟢" . font-lock-constant-face)               ; Null
+	 ("" . font-lock-builtin-face)                ; EnumMember
+	 ("󰌗" . font-lock-type-face)                   ; Struct
+	 ("" . font-lock-warning-face)                ; Event
+	 ("󰆕" . font-lock-operator-face)               ; Operator
+	 ("󰊄" . font-lock-type-face)])                 ; TypeParameter
 
 ;; the bundled lookups want an icon pkg with a second font, the loaded one covers both
 (defun my/lsp-symbol-icon (kind &optional feature)
 	(when (and kind (lsp-icons--enabled-for-feature feature))
-		(aref my/lsp-symbol-icons (1- kind))))
+		(let ((cell (aref my/lsp-symbol-icons (1- kind))))
+			(propertize (car cell) 'face (cdr cell)))))
 
 (defun my/lsp-file-icon (ext &optional feature)
 	(when (and ext (lsp-icons--enabled-for-feature feature))
