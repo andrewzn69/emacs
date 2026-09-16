@@ -18,6 +18,9 @@
 ;; built-in package.el stays off, straight.el manages packages
 (setq package-enable-at-startup nil)
 
+;; lsp reads this when it is byte compiled, changing it later needs a rebuild
+(setenv "LSP_USE_PLISTS" "true")
+
 ;; no menu bar, tool bar or scroll bars on any frame, set before the first frame is drawn
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
