@@ -38,6 +38,8 @@
 	:custom
 	;; the built in checker, the modeline already carries a segment for it
 	(lsp-diagnostics-provider :flymake)
+	;; the popup reads the completion function directly, lsp wiring up its own would fight it
+	(lsp-completion-provider :none)
 	;; the sideline and the checker already show what these would repeat
 	(lsp-modeline-diagnostics-enable nil)
 	(lsp-modeline-code-actions-enable nil)
