@@ -3,7 +3,8 @@
 ;; defaults
 (defvar my/theme 'crimson)
 (defvar my/font-family "JetBrainsMono Nerd Font")
-(defvar my/font-height 110)
+;; size in points, the terminal is set to the same number
+(defvar my/font-point-size 11.0)
 
 ;; themes shipped in this repo
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" my/config-directory))
@@ -14,7 +15,15 @@
 	(with-selected-frame (or frame (selected-frame))
 		(when (and (display-graphic-p)
 			         (find-font (font-spec :family my/font-family)))
-			(set-face-attribute 'default nil :family my/font-family :height my/font-height))))
+			;; points land between pixels, 96 dpi is what the display stack converts at
+			(let* ((exact (* my/font-point-size (/ 96.0 72.0)))
+						 (rounded (round exact)))
+				;; glyphs drawn at the unrounded size instead of the whole pixel emacs rounds to
+				(setq ftcr-font-size-scale (/ exact rounded))
+				;; leading off so the line box is rounded once instead of ascent and descent apart
+				(set-face-attribute 'default nil :font
+														(format "%s:pixelsize=%d:minspace=false"
+																		my/font-family rounded))))))
 
 ;; apply now and again for every new frame the daemon opens
 (my/apply-font)

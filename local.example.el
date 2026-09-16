@@ -11,7 +11,7 @@
 ;; theme and font
 ;; (setq my/theme 'modus-vivendi)
 ;; (setq my/font-family "JetBrainsMono Nerd Font")
-;; (setq my/font-height 160)
+;; (setq my/font-point-size 16.0)
 
 ;; absolute line numbers
 ;; (setq my/line-numbers-type t)
