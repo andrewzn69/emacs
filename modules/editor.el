@@ -29,10 +29,26 @@
 	(mapc #'delete-overlay my/column-highlight-overlays)
 	(setq my/column-highlight-overlays nil))
 
+;; the cell painted onto whatever is drawn at the spot already, indent guides claim the same characters
+(defun my/column-highlight-cell (base offset width)
+	(let* ((newline (and base (string-suffix-p "\n" base)))
+				 (body (cond (newline (substring base 0 -1))
+										 (base base)
+										 (t "")))
+				 (need (max (1+ offset) (or width 0)))
+				 (cell (concat body (make-string (max 0 (- need (length body))) ?\s))))
+		(add-face-text-property offset (1+ offset) 'my/column-highlight t cell)
+		(if newline (concat cell "\n") cell)))
+
 ;; cell at the column on the line at point
 (defun my/column-highlight-line (column window)
-	(let ((reached (move-to-column column))
-				(overlay nil))
+	(let* ((eol (line-end-position))
+				 (reached (move-to-column column))
+				 (overlay nil))
+		;; a guide bar drawn on the newline is one atomic string and column motion crosses the line end inside it
+		(when (> (point) eol)
+			(goto-char eol)
+			(setq reached (current-column)))
 		(cond
 		 ;; a tab spans several columns, the column either sits on it or inside it
 		 ((or (and (= reached column) (eq (char-after) ?\t))
@@ -42,22 +58,30 @@
 				(forward-char))
 			;; drawn as spaces so only the cell at the column is colored
 			(let ((start (save-excursion (backward-char) (current-column)))
-						(end (current-column)))
+						(end (current-column))
+						;; a guide bar may already sit inside this tab
+						(base (get-char-property (1- (point)) 'display)))
 				(setq overlay (make-overlay (1- (point)) (point)))
 				(overlay-put overlay 'display
-										 (concat (make-string (- column start) ?\s)
-														 (propertize " " 'face 'my/column-highlight)
-														 (make-string (- end column 1) ?\s)))))
+										 (my/column-highlight-cell (and (stringp base) base)
+																							 (- column start)
+																							 (- end start)))))
 		 ;; a wide character keeps its glyph so the whole character is colored
 		 ((> reached column)
 			(setq overlay (make-overlay (1- (point)) (point)))
 			(overlay-put overlay 'face 'my/column-highlight))
 		 ;; line ends before the column, padding and one colored cell after it
 		 ((eolp)
-			(setq overlay (make-overlay (point) (point)))
-			(overlay-put overlay 'after-string
-									 (concat (make-string (- column reached) ?\s)
-													 (propertize " " 'face 'my/column-highlight))))
+			;; a blank line carries only its newline and the guides draw their bars on it
+			(let ((base (and (not (eobp)) (get-char-property (point) 'display))))
+				(if (stringp base)
+						(progn
+							(setq overlay (make-overlay (point) (1+ (point))))
+							(overlay-put overlay 'display
+													 (my/column-highlight-cell base (- column reached) nil)))
+					(setq overlay (make-overlay (point) (point)))
+					(overlay-put overlay 'after-string
+											 (my/column-highlight-cell nil (- column reached) nil)))))
 		 (t
 			(setq overlay (make-overlay (point) (1+ (point))))
 			(overlay-put overlay 'face 'my/column-highlight)))
