@@ -149,6 +149,12 @@
 	 ;; hover popup
 	 `(lsp-ui-doc-background ((t :background ,bg0)))                        ; NormalFloat
 
+	 ;; completion popup
+	 `(corfu-default ((t :background ,bg0)))                                ; NormalFloat
+	 `(corfu-current ((t :background ,coral-bg :extend t)))                 ; PmenuSel
+	 `(corfu-border ((t :background ,coral)))                               ; FloatBorder
+	 `(corfu-bar ((t :background ,bg4)))                                    ; PmenuThumb
+
 	 ;; diffs
 	 `(diff-added ((t :background ,dark-green :extend t)))                  ; DiffAdd
 	 `(diff-removed ((t :background ,dark-red :extend t)))                  ; DiffDelete
