@@ -32,6 +32,19 @@
 ;; highlighting only, no server ships for these templates
 (use-package jinja2-mode :defer t)
 
+;; the fringe takes bitmaps only, the margin takes text so a glyph can be drawn there
+(use-package flymake
+	:straight nil
+	:defer t
+	:custom
+	(flymake-indicator-type 'margins)
+	;; copied onto the severity symbols when the checker loads, so setting it later does nothing
+	(flymake-margin-indicators-string
+	 `((error ,(alist-get 'error my/icons-diagnostics) compilation-error)
+	   (warning ,(alist-get 'warning my/icons-diagnostics) compilation-warning)
+	   ;; the protocol has four levels and the checker has three, so hints arrive as notes
+	   (note ,(alist-get 'info my/icons-diagnostics) compilation-info))))
+
 ;; the checker messages for the line in a floating window, eldoc shows one source at a time and the server takes it
 (defun my/diagnostic-box ()
 	(interactive)
