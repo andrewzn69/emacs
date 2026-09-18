@@ -1,7 +1,5 @@
 ;;; dashboard.el --- Start screen -*- lexical-binding: t; -*-
 
-(require 'desktop)
-
 ;; recent files list for the recents entry
 (recentf-mode 1)
 
@@ -16,27 +14,10 @@
 (defvar my/dashboard-footer-url "https://github.com/andrewzn69/emacs")
 (defvar my/dashboard-menu
   '(("Recently opened files" nerd-icons-faicon "nf-fa-file_text" recentf-open-files)
-    ("Reload last session" nerd-icons-octicon "nf-oct-history" my/load-session)
     ("Open org-agenda" nerd-icons-octicon "nf-oct-calendar" org-agenda)
     ("Open project" nerd-icons-octicon "nf-oct-briefcase" projectile-switch-project)
     ("Jump to bookmark" nerd-icons-octicon "nf-oct-bookmark" bookmark-jump)
     ("Open private configuration" nerd-icons-octicon "nf-oct-tools" my/open-config)))
-
-;; save open files on quit, old file removed first so desktop save never asks to overwrite
-(defun my/save-session ()
-  (unless noninteractive
-    (let ((file (desktop-full-file-name my/state-directory)))
-      (when (file-exists-p file)
-        (delete-file file))
-      (desktop-save my/state-directory t))))
-
-(add-hook 'kill-emacs-hook #'my/save-session)
-
-(defun my/load-session ()
-  (interactive)
-  (if (file-exists-p (desktop-full-file-name my/state-directory))
-      (desktop-read my/state-directory)
-    (message "No saved session")))
 
 ;; file picker that starts in the cfg dir
 (defun my/open-config ()
@@ -44,11 +25,10 @@
   (let ((default-directory my/config-directory))
     (call-interactively #'find-file)))
 
-;; recent files, cfg and last session under the leader
+;; recent files and cfg under the leader
 (my/leader
   "f r" #'recentf-open-files
-  "f p" #'my/open-config
-  "q l" #'my/load-session)
+  "f p" #'my/open-config)
 
 ;; banner in a smaller font, the prefix space gets the same face so lines shrink too
 (defun my/dashboard-insert-banner ()
