@@ -2,7 +2,7 @@
 
 ;; modules to load in order, local.el can add or remove them
 ;; pdf before evil so pdf tools is installed when evil collection compiles its pdf keys
-(defvar my/modules '(ui modeline dashboard editor project pdf evil tools/treeshitter lang completion org git))
+(defvar my/modules '(ui modeline dashboard editor project pdf evil tools/treeshitter lang completion/corfu completion org git))
 
 ;; pkg manager first, modules install pkgs through it
 (load (expand-file-name "core/packages" my/config-directory) nil 'nomessage)
@@ -21,5 +21,5 @@
 ;; each entry is a file or a folder holding config
 (dolist (module my/modules)
 	(let* ((base (expand-file-name (format "modules/%s" module) my/config-directory))
-				 (file (if (file-directory-p base) (expand-file-name "config" base) base)))
+				 (file (if (file-exists-p (concat base ".el")) base (expand-file-name "config" base))))
 		(load file nil 'nomessage)))
