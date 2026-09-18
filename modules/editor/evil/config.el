@@ -1,4 +1,4 @@
-;;; evil.el --- Vim keys -*- lexical-binding: t; -*-
+;;; config.el --- Vim keys -*- lexical-binding: t; -*-
 
 (use-package evil
 	:init
