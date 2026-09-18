@@ -10,6 +10,9 @@
 ;; leader map before local.el and modules so both can add keys to it
 (load (expand-file-name "core/leader" my/config-directory) nil 'nomessage)
 
+;; glyphs before local.el and modules so both can change what is drawn
+(load (expand-file-name "core/icons" my/config-directory) nil 'nomessage)
+
 ;; per machine overrides, loaded before modules so their defaults dont replace them
 (let ((local (expand-file-name "local.el" my/config-directory)))
 	(when (file-exists-p local)
