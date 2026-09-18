@@ -28,9 +28,6 @@
 (defun my/completion-add-dabbrev ()
 	(add-hook 'completion-at-point-functions #'cape-dabbrev 20 t))
 
-(defun my/completion-add-elisp ()
-	(add-hook 'completion-at-point-functions #'cape-elisp-symbol nil t))
-
 ;; sources the language servers do not cover
 (use-package cape
 	:custom
@@ -40,6 +37,5 @@
 	(add-hook 'prog-mode-hook #'my/completion-add-file)
 	(dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
 		(add-hook hook #'my/completion-add-dabbrev))
-	(add-hook 'emacs-lisp-mode-hook #'my/completion-add-elisp)
 	;; the popup drops a query the moment another key lands, wasting whatever the server did
 	(advice-add 'lsp-completion-at-point :around #'cape-wrap-noninterruptible))
