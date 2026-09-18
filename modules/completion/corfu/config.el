@@ -1,5 +1,7 @@
 ;;; config.el --- Completion popup and its sources -*- lexical-binding: t; -*-
 
+;;; Settings
+
 ;; defaults, local.el can override them
 ;; characters typed before the popup opens on its own
 (defvar my/completion-prefix 2)
@@ -7,7 +9,8 @@
 ;; buffers longer than this are left out of the word scan
 (defvar my/completion-scan-limit (* 1024 1024))
 
-;; the popup itself
+;;; Popup
+
 (use-package corfu
 	:custom
 	;; opens while typing instead of waiting for a key
@@ -44,6 +47,8 @@
 	:after corfu
 	:config
 	(add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+;;; Sources
 
 ;; same mode buffers short enough to read without holding up a keystroke
 (defun my/completion-scan-buffers ()
