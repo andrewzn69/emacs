@@ -34,6 +34,9 @@
 		(doom-modeline-face (if (bound-and-true-p evil-local-mode)
 														(intern (format "doom-modeline-evil-%s-state" evil-state))
 													'doom-modeline-evil-normal-state)))
+	;; the pair holds the glyph set and the name the icon pkg looks up
+	(defun my/modeline-icon (icon face)
+		(doom-modeline-icon (car icon) (cdr icon) "" nil :face face))
 	;; state name on its state face in the selected window only
 	(doom-modeline-def-segment my/evil-state
 		(when (and (bound-and-true-p evil-local-mode) (doom-modeline--active))
@@ -49,7 +52,7 @@
 						;; vc text minus the backend name and every state marker, percent doubled so the mode line prints it
 						(branch (string-replace "%" "%%" (replace-regexp-in-string "\\`[[:space:]]*[[:alpha:]]*[-:@!?]" "" vc-mode))))
 				(concat (propertize " " 'face face)
-								(doom-modeline-icon 'powerline "nf-pl-branch" "" nil :face face)
+								(my/modeline-icon my/icons-branch face)
 								(propertize (concat " " branch " ") 'face face)))))
 	;; mode icon for the mode name
 	(doom-modeline-def-segment my/major-mode-icon
@@ -67,7 +70,7 @@
 		(when (doom-modeline--active)
 			(let ((face (my/modeline-state-face)))
 				(concat (propertize " " 'face face)
-								(doom-modeline-icon 'octicon "nf-oct-clock" "" nil :face face)
+								(my/modeline-icon my/icons-clock face)
 								(propertize (concat " " (format-time-string my/modeline-time-format) " ") 'face face)))))
 	;; redraw on every full minute so the clock doesnt wait for input
 	(run-at-time t 60 #'force-mode-line-update t)
