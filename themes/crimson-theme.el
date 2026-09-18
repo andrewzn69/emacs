@@ -146,6 +146,9 @@
 	 `(lsp-headerline-breadcrumb-path-face ((t :foreground ,fg1)))          ; NavicText
 	 `(lsp-headerline-breadcrumb-symbols-face ((t :foreground ,fg1 :weight bold))) ; NavicText
 
+	 ;; hover popup
+	 `(lsp-ui-doc-background ((t :background ,surface0)))                   ; NormalFloat
+
 	 ;; diffs
 	 `(diff-added ((t :background ,dark-green :extend t)))                  ; DiffAdd
 	 `(diff-removed ((t :background ,dark-red :extend t)))                  ; DiffDelete
@@ -255,7 +258,9 @@
 	(custom-theme-set-variables
 	 'crimson
 	 ;; pdf pages in midnight mode use the editor text and background
-	 `(pdf-view-midnight-colors '(,fg1 . ,bg0))))
+	 `(pdf-view-midnight-colors '(,fg1 . ,bg0))
+	 ;; the popup paints the border of its own frame, ignoring the face every other frame uses
+	 `(lsp-ui-doc-border ,surface0)))                                       ; FloatBorder
 
 (provide-theme 'crimson)
 
