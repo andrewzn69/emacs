@@ -14,6 +14,8 @@
 	:custom
 	;; a grammar missing here means the build lacks it, and nothing can compile one at run time
 	(treesit-auto-install-grammar 'never)
+	;; the lower levels leave field access, brackets and operators plain
+	(treesit-font-lock-level 4)
 	(treesit-enabled-modes t))
 
 ;; major modes emacs ships none for, the rest of the list is built in
