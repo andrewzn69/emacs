@@ -1,7 +1,6 @@
-;;; dashboard.el --- Start screen -*- lexical-binding: t; -*-
+;;; config.el --- Start screen -*- lexical-binding: t; -*-
 
-;; recent files list for the recents entry
-(recentf-mode 1)
+;;; Settings
 
 ;; defaults, local.el can override them
 (defvar my/dashboard-banner (expand-file-name "assets/lain.txt" my/config-directory))
@@ -16,6 +15,11 @@
     ("Jump to bookmark" nerd-icons-octicon "nf-oct-bookmark" bookmark-jump)
     ("Open private configuration" nerd-icons-octicon "nf-oct-tools" my/open-config)))
 
+;;; Commands
+
+;; recent files list for the recents entry
+(recentf-mode 1)
+
 ;; file picker that starts in the cfg dir
 (defun my/open-config ()
   (interactive)
@@ -26,6 +30,8 @@
 (my/leader
   "f r" #'recentf-open-files
   "f p" #'my/open-config)
+
+;;; Banner
 
 ;; banner in a smaller font, the prefix space gets the same face so lines shrink too
 (defun my/dashboard-insert-banner ()
@@ -45,6 +51,8 @@
     (insert text)
     (add-text-properties start (point)
                          `(line-prefix ,prefix wrap-prefix ,prefix))))
+
+;;; Menu
 
 ;; key column starts a fixed gap after the longest label, so every key lines up
 (defun my/dashboard-label-width ()
@@ -75,6 +83,28 @@
 													'my/dashboard-menu t)
       (insert (propertize key 'face 'font-lock-constant-face)
               "\n\n"))))
+
+;;; Footer
+
+;; github icon linking to the cfg repo, plain text in a terminal
+(defun my/dashboard-insert-footer ()
+  (dashboard-insert-center
+   (with-temp-buffer
+     (insert-text-button (if (dashboard-display-icons-p)
+                             (nerd-icons-codicon "nf-cod-octoface"
+                                                 :face 'dashboard-footer-icon-face
+                                                 :height 1.3
+                                                 :v-adjust -0.15)
+                           "github")
+                         'action (lambda (_) (browse-url my/dashboard-footer-url))
+                         'follow-link t
+                         'help-echo (format "Open github page (%s)"
+                                            (propertize my/dashboard-footer-url 'face 'font-lock-constant-face))
+                         'my/dashboard-menu t)
+     (buffer-string))
+   "\n"))
+
+;;; Cursor
 
 ;; start of every marked entry, top to bottom
 (defun my/dashboard-menu-starts ()
@@ -127,6 +157,8 @@
 (defun my/dashboard-echo-hover-help ()
   (setq-local show-help-function #'tooltip-show-help-non-mode))
 
+;;; Centering
+
 ;; old padding removed, then half the free window height added as empty lines on top
 ;; measured in pixels because the banner lines are shorter than normal lines
 (defun my/dashboard-center-vertically (window)
@@ -148,6 +180,8 @@
   (when-let* ((window (get-buffer-window nil t)))
     (my/dashboard-center-vertically window)))
 
+;;; Keys
+
 ;; evil collection binds q to quit window in read only modes, removing it lets q record macros
 (defun my/dashboard-unbind-q (mode &rest _)
   (when (eq mode 'dashboard)
@@ -155,23 +189,7 @@
 
 (add-hook 'evil-collection-setup-hook #'my/dashboard-unbind-q)
 
-;; github icon linking to the cfg repo, plain text in a terminal
-(defun my/dashboard-insert-footer ()
-  (dashboard-insert-center
-   (with-temp-buffer
-     (insert-text-button (if (dashboard-display-icons-p)
-                             (nerd-icons-codicon "nf-cod-octoface"
-                                                 :face 'dashboard-footer-icon-face
-                                                 :height 1.3
-                                                 :v-adjust -0.15)
-                           "github")
-                         'action (lambda (_) (browse-url my/dashboard-footer-url))
-                         'follow-link t
-                         'help-echo (format "Open github page (%s)"
-                                            (propertize my/dashboard-footer-url 'face 'font-lock-constant-face))
-                         'my/dashboard-menu t)
-     (buffer-string))
-   "\n"))
+;;; Packages
 
 (use-package nerd-icons)
 
