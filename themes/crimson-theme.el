@@ -259,8 +259,7 @@
 	 'crimson
 	 ;; pdf pages in midnight mode use the editor text and background
 	 `(pdf-view-midnight-colors '(,fg1 . ,bg0))
-	 ;; the popup paints the border of its own frame, ignoring the face every other frame uses
-	 `(lsp-ui-doc-border ,surface0)))                                       ; FloatBorder
+	 `(lsp-ui-doc-border ,coral)))                                          ; FloatBorder
 
 (provide-theme 'crimson)
 
