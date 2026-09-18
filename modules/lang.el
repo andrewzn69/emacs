@@ -8,16 +8,6 @@
 						dockerfile-mode typescript-mode markdown-mode go-mode rust-mode
 						elixir-mode php-mode))
 
-;; the build ships a grammar for every language, so the parsing modes take over from the old ones
-(use-package treesit
-	:straight nil
-	:custom
-	;; a grammar missing here means the build lacks it, and nothing can compile one at run time
-	(treesit-auto-install-grammar 'never)
-	;; the lower levels leave field access, brackets and operators plain
-	(treesit-font-lock-level 4)
-	(treesit-enabled-modes t))
-
 ;; major modes emacs ships none for, the rest of the list is built in
 (use-package nix-mode :defer t)
 (use-package yaml-mode :defer t)
