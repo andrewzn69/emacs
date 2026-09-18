@@ -4,9 +4,17 @@
 ;; modes a server is started for, each one needs its server on PATH
 (defvar my/lsp-modes
 	'(sh-mode c-mode c++-mode css-mode html-mode js-mode js-json-mode lua-mode
-						python-mode csharp-mode latex-mode nix-mode yaml-mode terraform-mode
+						json-mode python-mode csharp-mode latex-mode nix-mode yaml-mode terraform-mode
 						dockerfile-mode typescript-mode markdown-mode go-mode rust-mode
 						elixir-mode php-mode))
+
+;; the build ships a grammar for every language, so the parsing modes take over from the old ones
+(use-package treesit
+	:straight nil
+	:custom
+	;; a grammar missing here means the build lacks it, and nothing can compile one at run time
+	(treesit-auto-install-grammar 'never)
+	(treesit-enabled-modes t))
 
 ;; major modes emacs ships none for, the rest of the list is built in
 (use-package nix-mode :defer t)
@@ -161,9 +169,13 @@
 	:after lsp-mode
 	:demand t)
 
+;; a parsing mode carries its own name, so the lineage is asked for rather than the name
+(defun my/lsp-maybe-start ()
+	(when (derived-mode-p my/lsp-modes)
+		(lsp-deferred)))
+
 ;; the server starts once the buffer is shown instead of while a file is being read
-(dolist (mode my/lsp-modes)
-	(add-hook (intern (format "%s-hook" mode)) #'lsp-deferred))
+(add-hook 'find-file-hook #'my/lsp-maybe-start)
 
 ;; diagnostics beside the line and docs in a popup
 (use-package lsp-ui
