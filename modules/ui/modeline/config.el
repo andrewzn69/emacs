@@ -1,4 +1,4 @@
-;;; modeline.el --- Mode line -*- lexical-binding: t; -*-
+;;; config.el --- Mode line -*- lexical-binding: t; -*-
 
 ;; defaults, local.el can override them
 (defvar my/modeline-time-format "%H:%M")
