@@ -40,10 +40,11 @@
 	(flymake-indicator-type 'margins)
 	;; copied onto the severity symbols when the checker loads, so setting it later does nothing
 	(flymake-margin-indicators-string
-	 `((error ,(alist-get 'error my/icons-diagnostics) compilation-error)
-	   (warning ,(alist-get 'warning my/icons-diagnostics) compilation-warning)
+	 ;; the glyphs draw two columns wide, so each carries a blank to keep the margin from clipping
+	 `((error ,(concat (alist-get 'error my/icons-diagnostics) " ") compilation-error)
+	   (warning ,(concat (alist-get 'warning my/icons-diagnostics) " ") compilation-warning)
 	   ;; the protocol has four levels and the checker has three, so hints arrive as notes
-	   (note ,(alist-get 'info my/icons-diagnostics) compilation-info))))
+	   (note ,(concat (alist-get 'info my/icons-diagnostics) " ") compilation-info))))
 
 ;; the checker messages for the line in a floating window, eldoc shows one source at a time and the server takes it
 (defun my/diagnostic-box ()
