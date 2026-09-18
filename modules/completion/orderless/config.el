@@ -1,4 +1,4 @@
-;;; completion.el --- Completion matching -*- lexical-binding: t; -*-
+;;; config.el --- Completion matching -*- lexical-binding: t; -*-
 
 ;; space separated pieces match in any order, so nix mod finds nix-mode
 (use-package orderless
