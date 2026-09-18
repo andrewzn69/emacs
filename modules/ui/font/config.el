@@ -1,15 +1,10 @@
-;;; ui.el --- Theme and font -*- lexical-binding: t; -*-
+;;; config.el --- Font -*- lexical-binding: t; -*-
 
 ;; defaults
-(defvar my/theme 'crimson)
 (defvar my/font-family "JetBrainsMono Nerd Font")
 ;; size in points, the terminal is set to the same number
 (defvar my/font-point-size 11.0)
 (defvar my/font-weight "semibold")
-
-;; themes shipped in this repo
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" my/config-directory))
-(load-theme my/theme t)
 
 ;; font only on gui frames and only if installed
 (defun my/apply-font (&optional frame)
