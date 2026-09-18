@@ -147,7 +147,7 @@
 	 `(lsp-headerline-breadcrumb-symbols-face ((t :foreground ,fg1 :weight bold))) ; NavicText
 
 	 ;; hover popup
-	 `(lsp-ui-doc-background ((t :background ,surface0)))                   ; NormalFloat
+	 `(lsp-ui-doc-background ((t :background ,bg0)))                        ; NormalFloat
 
 	 ;; diffs
 	 `(diff-added ((t :background ,dark-green :extend t)))                  ; DiffAdd
