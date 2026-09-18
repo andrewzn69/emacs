@@ -3,9 +3,6 @@
 ;; recent files list for the recents entry
 (recentf-mode 1)
 
-;; no gnu emacs info hint in the echo area after startup
-(advice-add 'display-startup-echo-area-message :override #'ignore)
-
 ;; defaults, local.el can override them
 (defvar my/dashboard-banner (expand-file-name "assets/lain.txt" my/config-directory))
 (defvar my/dashboard-banner-height 0.8)

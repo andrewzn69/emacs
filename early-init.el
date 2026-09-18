@@ -28,3 +28,6 @@
 (setq menu-bar-mode nil
 			tool-bar-mode nil
 			scroll-bar-mode nil)
+
+;; no gnu emacs info hint in the echo area after startup
+(advice-add 'display-startup-echo-area-message :override #'ignore)
