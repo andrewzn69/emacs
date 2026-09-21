@@ -32,4 +32,20 @@
 	;; manual hands the trigger to the evil hooks instead of the cursor
 	(org-appear-trigger 'manual)
 	;; org hides link syntax so the toggle has to cover it
-	(org-appear-autolinks t))
+	(org-appear-autolinks t)
+	;; entities and scripts hide once org modern turns them on
+	(org-appear-autoentities t)
+	(org-appear-autosubmarkers t))
+
+;; styling only, the hiding it switches on is handed back by org appear
+(use-package org-modern
+	:hook ((org-mode . org-modern-mode)
+				 (org-agenda-finalize . org-modern-agenda))
+	:custom
+	;; tags draw as labels next to the heading so aligning them to a column fights it
+	(org-auto-align-tags nil)
+	(org-tags-column 0)
+	(org-agenda-tags-column 0)
+	(org-hide-emphasis-markers t)
+	(org-pretty-entities t)
+	(org-ellipsis "…"))
