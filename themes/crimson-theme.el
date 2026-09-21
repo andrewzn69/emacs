@@ -390,19 +390,18 @@
 
 	 ;; org-modern
 	 ;; the label parent is left alone, it carries font metrics rather than color
-	 `(org-modern-tag ((t :inherit (secondary-selection org-modern-label) :foreground ,fg1)))
+	 `(org-modern-tag ((t :inherit org-modern-label :foreground ,fg1 :background ,surface2)))
 	 ;; set outright because the inherited inverse video expects a foreground only todo face
 	 `(org-modern-todo ((t :inherit org-modern-label :foreground ,bg0 :background ,yellow :weight semibold)))
-	 `(org-modern-done ((t :inherit org-modern-label :foreground ,fg4 :background ,bg2)))
+	 `(org-modern-done ((t :inherit org-modern-label :foreground ,gray :background ,bg1)))
 	 `(org-modern-priority ((t :inherit org-modern-label :foreground ,bg0 :background ,red :weight semibold)))
-	 `(org-modern-date-active ((t :inherit org-modern-label :foreground ,fg1 :background ,bg2)))
-	 `(org-modern-date-inactive ((t :inherit org-modern-label :foreground ,gray :background ,bg1)))
-	 ;; distant foreground keeps the label readable where the cursor line runs under it
-	 `(org-modern-time-active ((t :inherit org-modern-label :foreground ,bg0 :background ,fg4 :distant-foreground ,fg1 :weight semibold)))
-	 `(org-modern-time-inactive ((t :inherit org-modern-label :foreground ,bg0 :background ,bg4 :distant-foreground ,fg1)))
-	 `(org-modern-progress-complete ((t :foreground ,bg0 :background ,fg4)))
-	 `(org-modern-progress-incomplete ((t :foreground ,fg1 :background ,bg2)))
-	 `(org-modern-horizontal-rule ((t :underline ,bg2 :extend t)))
+	 `(org-modern-date-active ((t :inherit org-modern-label :foreground ,fg1 :background ,surface2)))
+	 `(org-modern-time-active ((t :inherit org-modern-label :foreground ,bg0 :background ,coral :weight semibold)))
+	 `(org-modern-date-inactive ((t :inherit org-modern-label :foreground ,fg4 :background ,bg1)))
+	 `(org-modern-time-inactive ((t :inherit org-modern-label :foreground ,fg4 :background ,bg1)))
+	 `(org-modern-progress-complete ((t :foreground ,bg0 :background ,green)))
+	 `(org-modern-progress-incomplete ((t :foreground ,fg4 :background ,bg1)))
+	 `(org-modern-horizontal-rule ((t :underline ,surface2 :extend t)))
 	 ;; `(org-modern-symbol ((t )))
 	 ;; `(org-modern-block-name ((t )))
 	 ;; `(org-modern-habit ((t )))
