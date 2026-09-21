@@ -54,4 +54,4 @@
 	:custom-face
 	;; label metrics follow the font so they live here rather than in the theme
 	;; the shipped condensed width has no cut in this font and falls back to another family
-	(org-modern-label ((t (:height 0.9 :width normal :weight regular :underline nil)))))
+	(org-modern-label ((t (:height 1.0 :width normal :weight regular :underline nil)))))
