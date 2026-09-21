@@ -48,4 +48,8 @@
 	(org-agenda-tags-column 0)
 	(org-hide-emphasis-markers t)
 	(org-pretty-entities t)
-	(org-ellipsis "…"))
+	(org-ellipsis "…")
+	:custom-face
+	;; label metrics follow the font so they live here rather than in the theme
+	;; the shipped condensed width has no cut in this font and falls back to another family
+	(org-modern-label ((t (:height 0.9 :width normal :weight regular :underline nil)))))
