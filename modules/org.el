@@ -19,3 +19,17 @@
 											(list my/org-directory)))
 	;; capture target when a template has no file of its own
 	(org-default-notes-file (expand-file-name "notes.org" my/org-directory)))
+
+;; buffer local so the toggle only ever runs in org buffers
+(defun my/org-appear-evil-hooks ()
+	(add-hook 'evil-insert-state-entry-hook #'org-appear-manual-start nil t)
+	(add-hook 'evil-insert-state-exit-hook #'org-appear-manual-stop nil t))
+
+(use-package org-appear
+	:hook ((org-mode . org-appear-mode)
+				 (org-mode . my/org-appear-evil-hooks))
+	:custom
+	;; manual hands the trigger to the evil hooks instead of the cursor
+	(org-appear-trigger 'manual)
+	;; org hides link syntax so the toggle has to cover it
+	(org-appear-autolinks t))
