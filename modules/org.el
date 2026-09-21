@@ -49,6 +49,8 @@
 	(org-hide-emphasis-markers t)
 	(org-pretty-entities t)
 	(org-ellipsis "…")
+	;; round bullets per level instead of the fold arrows
+	(org-modern-star 'replace)
 	:custom-face
 	;; label metrics follow the font so they live here rather than in the theme
 	;; the shipped condensed width has no cut in this font and falls back to another family
