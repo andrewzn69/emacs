@@ -365,7 +365,7 @@
 
 	 ;; org
 	 ;; heading levels are styled under outline, org inherits them
-	 `(org-document-title ((t :foreground ,coral :weight bold)))            ; @markup.heading
+	 `(org-document-title ((t :foreground ,coral :weight bold :height 1.5))) ; @markup.heading
 	 `(org-document-info ((t :foreground ,fg1)))                            ; @markup
 	 `(org-document-info-keyword ((t :foreground ,aqua)))                   ; @keyword.directive
 	 `(org-meta-line ((t :foreground ,aqua)))                               ; @keyword.directive
