@@ -65,6 +65,10 @@
 	(org-ellipsis "…")
 	;; round bullets per level instead of the fold arrows
 	(org-modern-star 'replace)
+	;; same unicode block so every state renders at one size
+	(org-modern-checkbox '((?X . "▣")
+												 (?- . "▤")
+												 (?\s . "□")))
 	(org-modern-priority-faces '((?A . my/org-priority-a)
 															 (?B . my/org-priority-b)
 															 (?C . my/org-priority-c)))
