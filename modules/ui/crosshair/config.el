@@ -109,3 +109,9 @@
 (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
 	(add-hook hook #'hl-line-mode)
 	(add-hook hook #'my/column-highlight-mode))
+
+;; org draws with display properties so a column counted in buffer text lands elsewhere
+(defun my/column-highlight-disable ()
+	(my/column-highlight-mode -1))
+
+(add-hook 'org-mode-hook #'my/column-highlight-disable)
