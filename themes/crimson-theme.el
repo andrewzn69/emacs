@@ -364,15 +364,8 @@
 	 ;; `(orderless-match-face-3 ((t )))
 
 	 ;; org
-	 `(org-document-title ((t :foreground ,green :weight bold)))            ; @markup.heading
-	 `(org-level-1 ((t :foreground ,green :weight bold)))                   ; @markup.heading
-	 `(org-level-2 ((t :inherit org-level-1)))
-	 `(org-level-3 ((t :inherit org-level-1)))
-	 `(org-level-4 ((t :inherit org-level-1)))
-	 `(org-level-5 ((t :inherit org-level-1)))
-	 `(org-level-6 ((t :inherit org-level-1)))
-	 `(org-level-7 ((t :inherit org-level-1)))
-	 `(org-level-8 ((t :inherit org-level-1)))
+	 ;; heading levels are styled under outline, org inherits them
+	 `(org-document-title ((t :foreground ,coral :weight bold)))            ; @markup.heading
 	 `(org-document-info ((t :foreground ,fg1)))                            ; @markup
 	 `(org-document-info-keyword ((t :foreground ,aqua)))                   ; @keyword.directive
 	 `(org-meta-line ((t :foreground ,aqua)))                               ; @keyword.directive
@@ -415,6 +408,17 @@
 	 ;; `(org-modern-habit ((t )))
 	 ;; `(org-modern-internal-target ((t )))
 	 ;; `(org-modern-radio-target ((t )))
+
+	 ;; outline
+	 ;; org level faces inherit these so markdown and info headings match
+	 `(outline-1 ((t :foreground ,red :weight bold)))                       ; @markup.heading
+	 `(outline-2 ((t :foreground ,orange :weight bold)))
+	 `(outline-3 ((t :foreground ,yellow :weight normal)))
+	 `(outline-4 ((t :foreground ,green :weight normal)))
+	 `(outline-5 ((t :foreground ,blue :weight normal)))
+	 `(outline-6 ((t :foreground ,purple :weight normal)))
+	 `(outline-7 ((t :foreground ,aqua :weight normal)))
+	 `(outline-8 ((t :foreground ,gray :weight normal)))
 
 	 ;; show-paren-mode
 	 `(show-paren-match ((t :background ,bg3 :weight bold)))                ; MatchParen
