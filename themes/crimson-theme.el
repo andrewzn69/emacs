@@ -411,9 +411,10 @@
 
 	 ;; outline
 	 ;; org level faces inherit these so markdown and info headings match
-	 `(outline-1 ((t :foreground ,red :weight bold)))                       ; @markup.heading
-	 `(outline-2 ((t :foreground ,orange :weight bold)))
-	 `(outline-3 ((t :foreground ,yellow :weight normal)))
+	 ;; the top three carry a size step, deeper ones stay at body size
+	 `(outline-1 ((t :foreground ,red :weight bold :height 1.3)))           ; @markup.heading
+	 `(outline-2 ((t :foreground ,orange :weight bold :height 1.2)))
+	 `(outline-3 ((t :foreground ,yellow :weight normal :height 1.1)))
 	 `(outline-4 ((t :foreground ,green :weight normal)))
 	 `(outline-5 ((t :foreground ,blue :weight normal)))
 	 `(outline-6 ((t :foreground ,purple :weight normal)))
