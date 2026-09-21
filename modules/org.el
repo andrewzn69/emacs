@@ -39,6 +39,18 @@
 	(org-appear-autoentities t)
 	(org-appear-autosubmarkers t))
 
+(defface my/org-priority-a
+	'((t :inherit error))
+	"Face for the highest priority label.")
+
+(defface my/org-priority-b
+	'((t :inherit warning))
+	"Face for the middle priority label.")
+
+(defface my/org-priority-c
+	'((t :inherit shadow))
+	"Face for the lowest priority label.")
+
 ;; styling only, the hiding it switches on is handed back by org appear
 (use-package org-modern
 	:hook ((org-mode . org-modern-mode)
@@ -53,6 +65,9 @@
 	(org-ellipsis "…")
 	;; round bullets per level instead of the fold arrows
 	(org-modern-star 'replace)
+	(org-modern-priority-faces '((?A . my/org-priority-a)
+															 (?B . my/org-priority-b)
+															 (?C . my/org-priority-c)))
 	:custom-face
 	;; label metrics follow the font so they live here rather than in the theme
 	;; the shipped condensed width has no cut in this font and falls back to another family
