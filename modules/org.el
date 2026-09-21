@@ -18,7 +18,9 @@
 	(org-agenda-files (when (file-directory-p my/org-directory)
 											(list my/org-directory)))
 	;; capture target when a template has no file of its own
-	(org-default-notes-file (expand-file-name "notes.org" my/org-directory)))
+	(org-default-notes-file (expand-file-name "notes.org" my/org-directory))
+	:config
+	(require 'org-mouse))
 
 ;; buffer local so the toggle only ever runs in org buffers
 (defun my/org-appear-evil-hooks ()
