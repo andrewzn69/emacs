@@ -395,6 +395,27 @@
 	 `(org-drawer ((t :foreground ,gray :slant italic)))                    ; Comment
 	 `(org-ellipsis ((t :foreground ,gray :background ,bg1 :slant italic))) ; Folded
 
+	 ;; org-modern
+	 ;; the label parent is left alone, it carries font metrics rather than color
+	 `(org-modern-tag ((t :inherit (secondary-selection org-modern-label) :foreground ,fg1)))
+	 ;; set outright because the inherited inverse video expects a foreground only todo face
+	 `(org-modern-todo ((t :inherit org-modern-label :foreground ,bg0 :background ,yellow :weight semibold)))
+	 `(org-modern-done ((t :inherit org-modern-label :foreground ,fg4 :background ,bg2)))
+	 `(org-modern-priority ((t :inherit org-modern-label :foreground ,bg0 :background ,red :weight semibold)))
+	 `(org-modern-date-active ((t :inherit org-modern-label :foreground ,fg1 :background ,bg2)))
+	 `(org-modern-date-inactive ((t :inherit org-modern-label :foreground ,gray :background ,bg1)))
+	 ;; distant foreground keeps the label readable where the cursor line runs under it
+	 `(org-modern-time-active ((t :inherit org-modern-label :foreground ,bg0 :background ,fg4 :distant-foreground ,fg1 :weight semibold)))
+	 `(org-modern-time-inactive ((t :inherit org-modern-label :foreground ,bg0 :background ,bg4 :distant-foreground ,fg1)))
+	 `(org-modern-progress-complete ((t :foreground ,bg0 :background ,fg4)))
+	 `(org-modern-progress-incomplete ((t :foreground ,fg1 :background ,bg2)))
+	 `(org-modern-horizontal-rule ((t :underline ,bg2 :extend t)))
+	 ;; `(org-modern-symbol ((t )))
+	 ;; `(org-modern-block-name ((t )))
+	 ;; `(org-modern-habit ((t )))
+	 ;; `(org-modern-internal-target ((t )))
+	 ;; `(org-modern-radio-target ((t )))
+
 	 ;; show-paren-mode
 	 `(show-paren-match ((t :background ,bg3 :weight bold)))                ; MatchParen
 	 `(show-paren-mismatch ((t :foreground ,red :weight bold :inverse-video t))) ; Error
