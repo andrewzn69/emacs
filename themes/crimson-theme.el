@@ -392,14 +392,15 @@
 	 ;; the label parent is left alone, it carries font metrics rather than color
 	 `(org-modern-tag ((t :inherit org-modern-label :foreground ,fg1 :background ,surface2)))
 	 ;; set outright because the inherited inverse video expects a foreground only todo face
-	 `(org-modern-todo ((t :inherit org-modern-label :foreground ,bg0 :background ,yellow :weight semibold)))
+	 ;; the cursor line paints over the fill so the dark text needs a light fallback
+	 `(org-modern-todo ((t :inherit org-modern-label :foreground ,bg0 :background ,yellow :distant-foreground ,yellow :weight semibold)))
 	 `(org-modern-done ((t :inherit org-modern-label :foreground ,gray :background ,bg1)))
-	 `(org-modern-priority ((t :inherit org-modern-label :foreground ,bg0 :background ,red :weight semibold)))
+	 `(org-modern-priority ((t :inherit org-modern-label :foreground ,bg0 :background ,red :distant-foreground ,red :weight semibold)))
 	 `(org-modern-date-active ((t :inherit org-modern-label :foreground ,fg1 :background ,surface2)))
-	 `(org-modern-time-active ((t :inherit org-modern-label :foreground ,bg0 :background ,coral :weight semibold)))
+	 `(org-modern-time-active ((t :inherit org-modern-label :foreground ,bg0 :background ,coral :distant-foreground ,coral :weight semibold)))
 	 `(org-modern-date-inactive ((t :inherit org-modern-label :foreground ,fg4 :background ,bg1)))
 	 `(org-modern-time-inactive ((t :inherit org-modern-label :foreground ,fg4 :background ,bg1)))
-	 `(org-modern-progress-complete ((t :foreground ,bg0 :background ,green)))
+	 `(org-modern-progress-complete ((t :foreground ,bg0 :background ,green :distant-foreground ,green)))
 	 `(org-modern-progress-incomplete ((t :foreground ,fg4 :background ,bg1)))
 	 `(org-modern-horizontal-rule ((t :underline ,surface2 :extend t)))
 	 ;; `(org-modern-symbol ((t )))
