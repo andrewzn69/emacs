@@ -12,6 +12,73 @@
 	 "X" #'org-capture
 	 "o" (cons "open" (make-sparse-keymap))
 	 "o a" #'org-agenda)
+	(my/localleader
+	 :keymaps 'org-mode-map
+	 "#" #'org-update-statistics-cookies
+	 "'" #'org-edit-special
+	 "*" #'org-ctrl-c-star
+	 "-" #'org-ctrl-c-minus
+	 "." #'org-goto
+	 "A" #'org-archive-subtree-default
+	 "e" #'org-export-dispatch
+	 "f" #'org-footnote-action
+	 "h" #'org-toggle-heading
+	 "i" #'org-toggle-item
+	 "n" #'org-store-link
+	 "o" #'org-set-property
+	 "q" #'org-set-tags-command
+	 "t" #'org-todo
+	 "T" #'org-todo-list
+	 "x" #'org-toggle-checkbox
+	 "b" '(:ignore t :which-key "table")
+	 "b -" #'org-table-insert-hline
+	 "b a" #'org-table-align
+	 "b b" #'org-table-blank-field
+	 "b c" #'org-table-create-or-convert-from-region
+	 "b e" #'org-table-edit-field
+	 "b f" #'org-table-edit-formulas
+	 "b h" #'org-table-field-info
+	 "b r" #'org-table-recalculate
+	 "b R" #'org-table-recalculate-buffer-tables
+	 "b s" #'org-table-sort-lines
+	 "b d" '(:ignore t :which-key "delete")
+	 "b d c" #'org-table-delete-column
+	 "b d r" #'org-table-kill-row
+	 "b i" '(:ignore t :which-key "insert")
+	 "b i c" #'org-table-insert-column
+	 "b i h" #'org-table-insert-hline
+	 "b i H" #'org-table-hline-and-move
+	 "b i r" #'org-table-insert-row
+	 "d" '(:ignore t :which-key "date/deadline")
+	 "d d" #'org-deadline
+	 "d s" #'org-schedule
+	 "d t" #'org-time-stamp
+	 "d T" #'org-time-stamp-inactive
+	 "l" '(:ignore t :which-key "links")
+	 "l l" #'org-insert-link
+	 "l L" #'org-insert-all-links
+	 "l s" #'org-store-link
+	 "l S" #'org-insert-last-stored-link
+	 "l t" #'org-toggle-link-display
+	 "p" '(:ignore t :which-key "priority")
+	 "p d" #'org-priority-down
+	 "p p" #'org-priority
+	 "p u" #'org-priority-up
+	 "s" '(:ignore t :which-key "tree/subtree")
+	 "s a" #'org-toggle-archive-tag
+	 "s A" #'org-archive-subtree-default
+	 "s b" #'org-tree-to-indirect-buffer
+	 "s c" #'org-clone-subtree-with-time-shift
+	 "s d" #'org-cut-subtree
+	 "s h" #'org-promote-subtree
+	 "s j" #'org-move-subtree-down
+	 "s k" #'org-move-subtree-up
+	 "s l" #'org-demote-subtree
+	 "s n" #'org-narrow-to-subtree
+	 "s N" #'widen
+	 "s r" #'org-refile
+	 "s s" #'org-sparse-tree
+	 "s S" #'org-sort)
 	:custom
 	(org-directory my/org-directory)
 	;; agenda collects todos from every org file in the notes dir, only if the dir exists here
