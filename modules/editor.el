@@ -14,6 +14,9 @@
 
 (setq-default tab-width my/tab-width)
 
+;; plain yank prefers the kill ring when the clipboard has not changed
+(keymap-global-set "C-S-v" #'clipboard-yank)
+
 ;; long lines run past the window edge instead of wrapping onto the next row
 (defun my/truncate-lines ()
 	(setq truncate-lines t))
