@@ -4,10 +4,17 @@
 (defvar my/leader-map (make-sparse-keymap))
 ;; one place for the key, the dashboard menu shows it in front of each entry key
 (defvar my/leader-key "SPC")
+;; mode specific commands, each module binds its own under this
+(defvar my/localleader-key "m")
 
 (use-package general
   :config
   (general-create-definer my/leader :keymaps 'my/leader-map)
+  ;; bound per mode map rather than in the leader map, so a mode only shows its own keys
+  (general-create-definer my/localleader
+    :states '(normal visual motion insert emacs)
+    :prefix (concat my/leader-key " " my/localleader-key)
+    :non-normal-prefix (concat "M-" my/leader-key " " my/localleader-key))
   ;; space in states that dont type text, alt space in insert and emacs state
   ;; bound in the override map, which comes before every mode keymap, so no mode can take the leader
   (with-eval-after-load 'evil
