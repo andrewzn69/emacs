@@ -141,11 +141,6 @@
 (use-package eldoc-box
 	:defer t)
 
-;; python goes through its own client, the bundled ones start a different server
-(use-package lsp-pyright
-	:after lsp-mode
-	:demand t)
-
 ;; a parsing mode carries its own name, so the lineage is asked for rather than the name
 (defun my/lsp-maybe-start ()
 	(when (derived-mode-p my/lsp-modes)
