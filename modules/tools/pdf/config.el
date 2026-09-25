@@ -1,4 +1,4 @@
-;;; pdf.el --- PDF reader -*- lexical-binding: t; -*-
+;;; config.el --- PDF reader -*- lexical-binding: t; -*-
 
 ;; big pdfs open without the 'file is large' prompt, added at startup so the first pdf skips it too
 (defun my/pdf-skip-large-file-prompt (fn size op-type filename &optional offer-raw)
