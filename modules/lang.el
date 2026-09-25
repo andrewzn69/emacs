@@ -9,7 +9,6 @@
 						elixir-mode php-mode))
 
 ;; major modes emacs ships none for, the rest of the list is built in
-(use-package nix-mode :defer t)
 (use-package yaml-mode :defer t)
 (use-package terraform-mode :defer t)
 (use-package dockerfile-mode :defer t)
