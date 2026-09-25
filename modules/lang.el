@@ -1,4 +1,4 @@
-;;; lang.el --- Language servers and major modes -*- lexical-binding: t; -*-
+;;; lang.el --- Language servers and diagnostics -*- lexical-binding: t; -*-
 
 ;; defaults, local.el can override them
 ;; modes a server is started for, each one needs its server on PATH
@@ -7,13 +7,6 @@
 						json-mode python-mode csharp-mode latex-mode nix-mode yaml-mode terraform-mode
 						dockerfile-mode typescript-mode markdown-mode go-mode rust-mode
 						elixir-mode php-mode))
-
-;; major modes emacs ships none for, the rest of the list is built in
-(use-package terraform-mode :defer t)
-(use-package dockerfile-mode :defer t)
-(use-package typescript-mode :defer t)
-;; highlighting only, no server ships for these templates
-(use-package jinja2-mode :defer t)
 
 ;; the fringe takes bitmaps only, the margin takes text so a glyph can be drawn there
 (use-package flymake
