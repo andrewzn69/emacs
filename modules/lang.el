@@ -9,15 +9,9 @@
 						elixir-mode php-mode))
 
 ;; major modes emacs ships none for, the rest of the list is built in
-(use-package yaml-mode :defer t)
 (use-package terraform-mode :defer t)
 (use-package dockerfile-mode :defer t)
 (use-package typescript-mode :defer t)
-(use-package markdown-mode :defer t)
-(use-package go-mode :defer t)
-(use-package rust-mode :defer t)
-(use-package elixir-mode :defer t)
-(use-package php-mode :defer t)
 ;; highlighting only, no server ships for these templates
 (use-package jinja2-mode :defer t)
 
