@@ -3,7 +3,7 @@
 ;; copy to local.el and uncomment what this machine needs
 
 ;; skip a module
-;; (setq my/modules (remove 'org my/modules))
+;; (setq my/modules (remove 'languages/org my/modules))
 
 ;; no pdf reader on machines that cant build or get epdfinfo
 ;; (setq my/modules (remove 'tools/pdf my/modules))

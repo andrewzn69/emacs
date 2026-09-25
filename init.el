@@ -2,7 +2,7 @@
 
 ;; modules to load in order, local.el can add or remove them
 ;; pdf before evil so pdf tools is installed when evil collection compiles its pdf keys
-(defvar my/modules '(ui/theme ui/font ui/modeline ui/dashboard ui/crosshair editor project tools/pdf editor/evil tools/treeshitter lang completion/corfu completion/orderless completion/vertico org tools/magit))
+(defvar my/modules '(ui/theme ui/font ui/modeline ui/dashboard ui/crosshair editor project tools/pdf editor/evil tools/treeshitter lang completion/corfu completion/orderless completion/vertico languages/org tools/magit))
 
 ;; pkg manager first, modules install pkgs through it
 (load (expand-file-name "core/packages" my/config-directory) nil 'nomessage)

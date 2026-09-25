@@ -1,4 +1,4 @@
-;;; org.el --- Notes and agenda -*- lexical-binding: t; -*-
+;;; config.el --- Notes and agenda -*- lexical-binding: t; -*-
 
 ;; default, local.el can override it
 (defvar my/org-directory "~/docs/org/")
