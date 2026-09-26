@@ -53,8 +53,8 @@
 	;; servers answer with far more at once than the default read size takes
 	(setq read-process-output-max (* 1024 1024))
 	:custom
-	;; the built in checker, the modeline already carries a segment for it
-	(lsp-diagnostics-provider :flymake)
+	;; auto falls back to the built in checker when flycheck is missing
+	(lsp-diagnostics-provider :none)
 	;; the popup reads the completion function directly, lsp wiring up its own would fight it
 	(lsp-completion-provider :none)
 	;; the sideline and the checker already show what these would repeat
@@ -81,15 +81,11 @@
 		"l o" #'lsp-ui-imenu
 		"l I" #'lsp-describe-session
 		"l s" #'lsp-signature-activate
-		"l E" #'my/diagnostic-box
 		"l t" #'my/lsp-toggle
 		"l l" #'lsp-ui-sideline-mode
 		"r" (cons "refactor" (make-sparse-keymap))
 		"r a" #'lsp-execute-code-action
 		"r r" #'lsp-rename
-		"T" (cons "diagnostics" (make-sparse-keymap))
-		"T t" #'flymake-show-project-diagnostics
-		"T T" #'flymake-show-buffer-diagnostics
 		"/" (cons "search" (make-sparse-keymap))
 		"/ l" (cons "lsp" (make-sparse-keymap))
 		"/ l r" #'lsp-ui-peek-find-references))

@@ -164,21 +164,6 @@
 	 ;; `(evil-ex-info ((t )))
 	 ;; `(evil-ex-search ((t )))
 
-	 ;; flymake
-	 `(flymake-error ((t :underline (:style wave :color ,red))))            ; DiagnosticUnderlineError
-	 `(flymake-warning ((t :underline (:style wave :color ,yellow))))       ; DiagnosticUnderlineWarn
-	 `(flymake-note ((t :underline (:style wave :color ,blue))))            ; DiagnosticUnderlineInfo
-	 ;; `(flymake-error-echo ((t )))
-	 ;; `(flymake-warning-echo ((t )))
-	 ;; `(flymake-note-echo ((t )))
-	 ;; `(flymake-error-echo-at-eol ((t )))
-	 ;; `(flymake-warning-echo-at-eol ((t )))
-	 ;; `(flymake-note-echo-at-eol ((t )))
-	 ;; `(flymake-error-fringe ((t )))
-	 ;; `(flymake-warning-fringe ((t )))
-	 ;; `(flymake-note-fringe ((t )))
-	 ;; `(flymake-end-of-line-diagnostics-face ((t )))
-
 	 ;; font-lock
 	 `(font-lock-comment-face ((t :foreground ,gray :slant italic)))        ; Comment
 	 `(font-lock-comment-delimiter-face ((t :inherit font-lock-comment-face))) ; Comment
