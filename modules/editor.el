@@ -1,8 +1,8 @@
 ;;; editor.el --- General editing behaviour -*- lexical-binding: t; -*-
 
 ;; defaults, local.el can override them
-;; relative so line motion counts read off the gutter, t or visual also work
-(defvar my/line-numbers-type 'relative)
+;; relative or visual also work
+(defvar my/line-numbers-type t)
 (defvar my/tab-width 2)
 
 ;; reopening a file puts the cursor back where it was, positions saved in the state dir

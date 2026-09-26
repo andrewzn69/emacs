@@ -13,8 +13,5 @@
 ;; (setq my/font-family "JetBrainsMono Nerd Font")
 ;; (setq my/font-point-size 16.0)
 
-;; absolute line numbers
-;; (setq my/line-numbers-type t)
-
 ;; notes dir
 ;; (setq my/org-directory "~/notes/")
