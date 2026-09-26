@@ -4,7 +4,8 @@
 (defun my/flycheck-margin-icons ()
 	(dolist (level '(error warning info))
 		(put level 'flycheck-margin-spec
-				 (flycheck-make-margin-spec (alist-get level my/icons-diagnostics)
+				 ;; the blank gives the two column wide glyph room to draw
+				 (flycheck-make-margin-spec (concat (alist-get level my/icons-diagnostics) " ")
 																		(get level 'flycheck-fringe-face)))))
 
 ;; the glyphs draw two columns wide and flycheck only widens the margin by one
