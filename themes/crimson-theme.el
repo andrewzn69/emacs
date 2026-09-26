@@ -164,6 +164,11 @@
 	 ;; `(evil-ex-info ((t )))
 	 ;; `(evil-ex-search ((t )))
 
+	 ;; flycheck
+	 `(flycheck-error ((t :underline (:style wave :color ,red))))           ; DiagnosticUnderlineError
+	 `(flycheck-warning ((t :underline (:style wave :color ,yellow))))      ; DiagnosticUnderlineWarn
+	 `(flycheck-info ((t :underline (:style wave :color ,blue))))           ; DiagnosticUnderlineInfo
+
 	 ;; font-lock
 	 `(font-lock-comment-face ((t :foreground ,gray :slant italic)))        ; Comment
 	 `(font-lock-comment-delimiter-face ((t :inherit font-lock-comment-face))) ; Comment

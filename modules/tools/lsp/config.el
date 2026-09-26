@@ -53,8 +53,7 @@
 	;; servers answer with far more at once than the default read size takes
 	(setq read-process-output-max (* 1024 1024))
 	:custom
-	;; auto falls back to the built in checker when flycheck is missing
-	(lsp-diagnostics-provider :none)
+	(lsp-diagnostics-provider :flycheck)
 	;; the popup reads the completion function directly, lsp wiring up its own would fight it
 	(lsp-completion-provider :none)
 	;; the sideline and the checker already show what these would repeat
@@ -113,4 +112,8 @@
 	;; pointer tracking turns every pixel of mouse motion into a redisplay
 	(lsp-ui-doc-show-with-mouse nil)
 	(lsp-ui-doc-position 'at-point)
-	:hook (lsp-mode . lsp-ui-mode))
+	:hook (lsp-mode . lsp-ui-mode)
+	:general-config
+	(my/leader
+		"T" (cons "diagnostics" (make-sparse-keymap))
+		"T t" #'lsp-ui-flycheck-list))
