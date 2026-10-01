@@ -50,6 +50,9 @@
 	(dirvish-side-follow-mode 1)
 	(define-key dirvish-mode-map (kbd "TAB") #'dirvish-subtree-toggle)
 	(define-key dirvish-mode-map (kbd "RET") #'my/dirvish-ret)
+	;; filter as you type and add a file, dired leaves / free and ships its a command disabled
+	(define-key dirvish-mode-map (kbd "/") #'dirvish-narrow)
+	(define-key dirvish-mode-map (kbd "a") #'dired-create-empty-file)
 	;; runs for every buffer the sidebar creates and for no other dirvish buffer
 	(with-eval-after-load 'dirvish-side
 		(advice-add 'dirvish-side-root-conf :after #'my/dirvish-side-omit))
