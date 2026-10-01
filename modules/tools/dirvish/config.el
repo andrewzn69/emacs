@@ -100,14 +100,6 @@
 		(advice-add 'dirvish-side-root-conf :after #'my/dirvish-side-omit))
 	(with-eval-after-load 'dirvish-widgets
 		(advice-add 'dirvish-media--img-size :around #'my/dirvish-media-img-size))
-	(setq dirvish-emerge-groups
-				'(("Recent files" (predicate . recent-files-2h))
-					("Documents" (extensions "pdf" "tex" "bib" "epub"))
-					("Video" (extensions "mp4" "mkv" "webm"))
-					("Pictures" (extensions "jpg" "png" "svg" "gif"))
-					("Audio" (extensions "mp3" "flac" "wav" "ape" "aac"))
-					("Archives" (extensions "gz" "rar" "zip"))))
-	(add-hook 'dirvish-setup-hook #'dirvish-emerge-mode)
 	(with-eval-after-load 'evil
 		;; evil collection binds dired keys in normal state only, motion state keeps the leader and C-w without them
 		(evil-set-initial-state 'dired-mode 'motion)
@@ -116,7 +108,4 @@
 		(advice-add 'evil-quit :around #'my/dirvish-quit-to-dir))
 	:general-config
 	(my/leader
-		"e" #'dirvish-side)
-	(my/localleader
-		:keymaps 'dirvish-mode-map
-		"g" #'dirvish-emerge-menu))
+		"e" #'dirvish-side))
