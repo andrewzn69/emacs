@@ -16,6 +16,25 @@
 			(lsp-ui-doc-glance)
 		(message "No information available")))
 
+;; drawn in the hover popup so docs and errors look alike
+(defun my/lsp-line-diagnostics ()
+	(interactive)
+	(let ((errors (and (bound-and-true-p flycheck-mode)
+										 (flycheck-overlay-errors-in (line-beginning-position) (line-end-position)))))
+		(if (not errors)
+				(message "No diagnostics on this line")
+			(lsp-ui-doc--display
+			 (thing-at-point 'symbol t)
+			 (mapconcat (lambda (err)
+										(concat (propertize (flycheck-error-message err)
+																				'face (flycheck-error-level-fringe-face (flycheck-error-level err)))
+														(when (flycheck-error-group err)
+															(propertize (format " (%s)" (flycheck-error-group err)) 'face 'shadow))))
+									(sort errors (lambda (a b) (flycheck-error-level-< b a)))
+									"\n"))
+			;; the hook runs once this command ends, so added now it would close the popup at once
+			(run-at-time 0 nil #'add-hook 'post-command-hook #'lsp-ui-doc--hide-frame))))
+
 ;; set per buffer so a major mode cannot keep the key, lua binds K to its own manual search
 (defun my/lsp-keys ()
 	(evil-local-set-key 'normal (kbd "K") #'my/lsp-hover)
@@ -82,6 +101,7 @@
 		"l s" #'lsp-signature-activate
 		"l t" #'my/lsp-toggle
 		"l l" #'lsp-ui-sideline-mode
+		"l E" #'my/lsp-line-diagnostics
 		"r" (cons "refactor" (make-sparse-keymap))
 		"r a" #'lsp-execute-code-action
 		"r r" #'lsp-rename
