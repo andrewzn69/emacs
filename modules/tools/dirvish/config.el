@@ -16,6 +16,16 @@
 					(dired-jump nil file)))
 		(funcall quit force)))
 
+;; return unfolds a folder in the sidebar, everywhere else it enters it as in dired
+(defun my/dirvish-ret ()
+	(interactive)
+	(let ((file (dired-get-filename nil t)))
+		(if (and file
+						 (window-parameter nil 'window-side)
+						 (file-directory-p file))
+				(dirvish-subtree-toggle)
+			(dired-find-file))))
+
 ;; every dired buffer opens as dirvish
 (use-package dirvish
 	:init
@@ -30,6 +40,7 @@
 	;; the sidebar keeps the current file selected and moves to the root of a new project
 	(dirvish-side-follow-mode 1)
 	(define-key dirvish-mode-map (kbd "TAB") #'dirvish-subtree-toggle)
+	(define-key dirvish-mode-map (kbd "RET") #'my/dirvish-ret)
 	;; evil collection binds dired keys in normal state only, so emacs state leaves dired its own keys
 	(with-eval-after-load 'evil
 		(evil-set-initial-state 'dired-mode 'emacs)
