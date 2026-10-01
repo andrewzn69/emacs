@@ -16,6 +16,14 @@
 					(dired-jump nil file)))
 		(funcall quit force)))
 
+;; q on the last window lands on the dashboard rather than whatever buffer was shown before
+(defun my/dirvish-quit ()
+	(interactive)
+	(let ((last (eq (selected-window) (window-main-window))))
+		(dirvish-quit)
+		(when (and last (fboundp 'dashboard-open))
+			(dashboard-open))))
+
 ;; return unfolds a folder in the sidebar, everywhere else it enters it as in dired
 (defun my/dirvish-ret ()
 	(interactive)
@@ -66,6 +74,7 @@
 	(dirvish-side-follow-mode 1)
 	(define-key dirvish-mode-map (kbd "TAB") #'dirvish-subtree-toggle)
 	(define-key dirvish-mode-map (kbd "RET") #'my/dirvish-ret)
+	(define-key dirvish-mode-map (kbd "q") #'my/dirvish-quit)
 	;; filter as you type and add a file, dired leaves / free and ships its a command disabled
 	(define-key dirvish-mode-map (kbd "/") #'dirvish-narrow)
 	(define-key dirvish-mode-map (kbd "a") #'my/dirvish-create-file)
