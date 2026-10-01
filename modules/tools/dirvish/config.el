@@ -1,6 +1,19 @@
 ;;; config.el --- File manager -*- lexical-binding: t; -*-
 
+;; defaults, local.el can override them
+;; text lines kept free under a preview image, room for a video's media sections and a wrapped file name
+(defvar my/dirvish-media-text-lines 26)
+
 (use-package nerd-icons)
+
+;; dirvish sizes a preview image by a fixed share of the pane, so the media sections under it would fall off the bottom
+(defun my/dirvish-media-img-size (size-fn window &optional height)
+	(let ((size (funcall size-fn window height)))
+		(if (and height dirvish-show-media-properties)
+				(min size (max (- (window-body-height window t)
+													(* my/dirvish-media-text-lines (default-line-height)))
+											 (default-line-height)))
+			size)))
 
 ;; quitting the last window of a file opens its dir in the full layout instead of closing emacs, the sidebar does not count
 ;; a buffer from emacsclient still finishes so its caller stops waiting
@@ -85,6 +98,8 @@
 	;; runs for every buffer the sidebar creates and for no other dirvish buffer
 	(with-eval-after-load 'dirvish-side
 		(advice-add 'dirvish-side-root-conf :after #'my/dirvish-side-omit))
+	(with-eval-after-load 'dirvish-widgets
+		(advice-add 'dirvish-media--img-size :around #'my/dirvish-media-img-size))
 	(with-eval-after-load 'evil
 		;; evil collection binds dired keys in normal state only, motion state keeps the leader and C-w without them
 		(evil-set-initial-state 'dired-mode 'motion)
