@@ -66,6 +66,12 @@
 	(interactive (list (read-file-name "Create directory: " (my/dirvish-target-dir))))
 	(dired-create-directory directory))
 
+;; groups in every listing but the sidebar, where they would break up the tree
+(defun my/dirvish-emerge ()
+	(let ((dv (dirvish-curr)))
+		(unless (and dv (eq (dv-type dv) 'side))
+			(dirvish-emerge-mode 1))))
+
 ;; the sidebar is a tree, so . and .. go, along with autosave and lock files
 (defun my/dirvish-side-omit (buffer)
 	(with-current-buffer buffer
@@ -85,6 +91,16 @@
 	(dirvish-subtree-prefix "  ")
 	;; omitting runs on every sidebar refresh, its count message would repeat each time
 	(dired-omit-verbose nil)
+	;; grouping rebuilds lines without dired's file name marks and dired cant parse some translated dates, iso ones never get translated
+	;; needs gnu ls, bsd ls rejects the option
+	(dired-listing-switches "-al --time-style=long-iso")
+	(dirvish-emerge-groups
+	 '(("Recent files" (predicate . recent-files-2h))
+		 ("Documents" (extensions "pdf" "tex" "bib" "epub"))
+		 ("Video" (extensions "mp4" "mkv" "webm"))
+		 ("Pictures" (extensions "jpg" "png" "svg" "gif"))
+		 ("Audio" (extensions "mp3" "flac" "wav" "ape" "aac"))
+		 ("Archives" (extensions "gz" "rar" "zip"))))
 	:config
 	;; the sidebar keeps the current file selected and moves to the root of a new project
 	(dirvish-side-follow-mode 1)
@@ -100,6 +116,7 @@
 		(advice-add 'dirvish-side-root-conf :after #'my/dirvish-side-omit))
 	(with-eval-after-load 'dirvish-widgets
 		(advice-add 'dirvish-media--img-size :around #'my/dirvish-media-img-size))
+	(add-hook 'dirvish-setup-hook #'my/dirvish-emerge)
 	(with-eval-after-load 'evil
 		;; evil collection binds dired keys in normal state only, motion state keeps the leader and C-w without them
 		(evil-set-initial-state 'dired-mode 'motion)
@@ -108,4 +125,7 @@
 		(advice-add 'evil-quit :around #'my/dirvish-quit-to-dir))
 	:general-config
 	(my/leader
-		"e" #'dirvish-side))
+		"e" #'dirvish-side)
+	(my/localleader
+		:keymaps 'dirvish-mode-map
+		"g" #'dirvish-emerge-menu))
