@@ -24,6 +24,8 @@
 	(dirvish-attributes '(nerd-icons file-time file-size))
 	;; the sidebar is a tree, folders expand in place
 	(dirvish-side-attributes '(subtree-state nerd-icons))
+	;; nested folders indent with blanks, the default draws a guide line per level
+	(dirvish-subtree-prefix "  ")
 	:config
 	;; the sidebar keeps the current file selected and moves to the root of a new project
 	(dirvish-side-follow-mode 1)
