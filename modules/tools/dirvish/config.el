@@ -26,6 +26,11 @@
 				(dirvish-subtree-toggle)
 			(dired-find-file))))
 
+;; the sidebar is a tree, so . and .. go, along with autosave and lock files
+(defun my/dirvish-side-omit (buffer)
+	(with-current-buffer buffer
+		(dired-omit-mode 1)))
+
 ;; every dired buffer opens as dirvish
 (use-package dirvish
 	:init
@@ -36,11 +41,16 @@
 	(dirvish-side-attributes '(subtree-state nerd-icons))
 	;; nested folders indent with blanks, the default draws a guide line per level
 	(dirvish-subtree-prefix "  ")
+	;; omitting runs on every sidebar refresh, its count message would repeat each time
+	(dired-omit-verbose nil)
 	:config
 	;; the sidebar keeps the current file selected and moves to the root of a new project
 	(dirvish-side-follow-mode 1)
 	(define-key dirvish-mode-map (kbd "TAB") #'dirvish-subtree-toggle)
 	(define-key dirvish-mode-map (kbd "RET") #'my/dirvish-ret)
+	;; runs for every buffer the sidebar creates and for no other dirvish buffer
+	(with-eval-after-load 'dirvish-side
+		(advice-add 'dirvish-side-root-conf :after #'my/dirvish-side-omit))
 	;; evil collection binds dired keys in normal state only, so emacs state leaves dired its own keys
 	(with-eval-after-load 'evil
 		(evil-set-initial-state 'dired-mode 'emacs)
