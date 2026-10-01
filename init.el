@@ -2,7 +2,8 @@
 
 ;; modules to load in order, local.el can add or remove them
 ;; pdf before evil so pdf tools is installed when evil collection compiles its pdf keys
-(defvar my/modules '(ui/theme ui/font ui/modeline ui/dashboard ui/crosshair editor project tools/pdf editor/evil tools/treeshitter checkers/flycheck tools/lsp languages/python languages/nix languages/yaml languages/markdown languages/go languages/rust languages/elixir languages/php languages/terraform languages/docker languages/typescript languages/jinja2 completion/corfu completion/orderless completion/vertico languages/org tools/magit))
+;; editor/defaults before ui/indent-guides, the guides read my/tab-width
+(defvar my/modules '(ui/theme ui/font ui/modeline ui/dashboard ui/crosshair ui/line-numbers editor/defaults ui/indent-guides project tools/pdf editor/evil tools/treeshitter checkers/flycheck tools/lsp languages/python languages/nix languages/yaml languages/markdown languages/go languages/rust languages/elixir languages/php languages/terraform languages/docker languages/typescript languages/jinja2 completion/corfu completion/orderless completion/vertico languages/org tools/magit))
 
 ;; pkg manager first, modules install pkgs through it
 (load (expand-file-name "core/packages" my/config-directory) nil 'nomessage)
