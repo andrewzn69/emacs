@@ -26,6 +26,22 @@
 				(dirvish-subtree-toggle)
 			(dired-find-file))))
 
+;; new entries start at the entry under the cursor, a folder itself or the folder holding a file
+;; the listing dir alone would be the project root for anything inside an unfolded folder
+(defun my/dirvish-target-dir ()
+	(let ((file (dired-get-filename nil t)))
+		(cond ((not file) (dired-current-directory))
+					((file-directory-p file) (file-name-as-directory (expand-file-name file)))
+					(t (file-name-directory file)))))
+
+(defun my/dirvish-create-file (file)
+	(interactive (list (read-file-name "Create empty file: " (my/dirvish-target-dir))))
+	(dired-create-empty-file file))
+
+(defun my/dirvish-create-directory (directory)
+	(interactive (list (read-file-name "Create directory: " (my/dirvish-target-dir))))
+	(dired-create-directory directory))
+
 ;; the sidebar is a tree, so . and .. go, along with autosave and lock files
 (defun my/dirvish-side-omit (buffer)
 	(with-current-buffer buffer
@@ -52,7 +68,8 @@
 	(define-key dirvish-mode-map (kbd "RET") #'my/dirvish-ret)
 	;; filter as you type and add a file, dired leaves / free and ships its a command disabled
 	(define-key dirvish-mode-map (kbd "/") #'dirvish-narrow)
-	(define-key dirvish-mode-map (kbd "a") #'dired-create-empty-file)
+	(define-key dirvish-mode-map (kbd "a") #'my/dirvish-create-file)
+	(define-key dirvish-mode-map (kbd "+") #'my/dirvish-create-directory)
 	;; runs for every buffer the sidebar creates and for no other dirvish buffer
 	(with-eval-after-load 'dirvish-side
 		(advice-add 'dirvish-side-root-conf :after #'my/dirvish-side-omit))
