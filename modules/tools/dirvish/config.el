@@ -66,6 +66,11 @@
 	(interactive (list (read-file-name "Create directory: " (my/dirvish-target-dir))))
 	(dired-create-directory directory))
 
+;; groups in every listing but the sidebar, where they would break up the tree
+(defun my/dirvish-emerge ()
+	(unless (eq (dv-type (dirvish-curr)) 'side)
+		(dirvish-emerge-mode 1)))
+
 ;; the sidebar is a tree, so . and .. go, along with autosave and lock files
 (defun my/dirvish-side-omit (buffer)
 	(with-current-buffer buffer
@@ -100,6 +105,15 @@
 		(advice-add 'dirvish-side-root-conf :after #'my/dirvish-side-omit))
 	(with-eval-after-load 'dirvish-widgets
 		(advice-add 'dirvish-media--img-size :around #'my/dirvish-media-img-size))
+	;; media groups reuse dirvish's extension lists, which miss gif and gz
+	(setq dirvish-emerge-groups
+				`(("Recent files" (predicate . recent-files-2h))
+					("Documents" (extensions "pdf" "tex" "bib" "epub"))
+					("Video" (extensions ,@dirvish-video-exts))
+					("Pictures" (extensions "gif" ,@dirvish-image-exts))
+					("Audio" (extensions ,@dirvish-audio-exts))
+					("Archives" (extensions "gz" ,@dirvish-archive-exts))))
+	(add-hook 'dirvish-setup-hook #'my/dirvish-emerge)
 	(with-eval-after-load 'evil
 		;; evil collection binds dired keys in normal state only, motion state keeps the leader and C-w without them
 		(evil-set-initial-state 'dired-mode 'motion)
@@ -108,4 +122,7 @@
 		(advice-add 'evil-quit :around #'my/dirvish-quit-to-dir))
 	:general-config
 	(my/leader
-		"e" #'dirvish-side))
+		"e" #'dirvish-side)
+	(my/localleader
+		:keymaps 'dirvish-mode-map
+		"g" #'dirvish-emerge-menu))
