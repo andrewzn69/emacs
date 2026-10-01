@@ -39,6 +39,8 @@
 	(dirvish-attributes '(nerd-icons file-time file-size))
 	;; the sidebar is a tree, folders expand in place
 	(dirvish-side-attributes '(subtree-state nerd-icons))
+	;; window keys reach the sidebar like any other window, closing the other windows still leaves it
+	(dirvish-side-window-parameters '((no-delete-other-windows . t)))
 	;; nested folders indent with blanks, the default draws a guide line per level
 	(dirvish-subtree-prefix "  ")
 	;; omitting runs on every sidebar refresh, its count message would repeat each time
@@ -54,6 +56,8 @@
 	;; evil collection binds dired keys in normal state only, so emacs state leaves dired its own keys
 	(with-eval-after-load 'evil
 		(evil-set-initial-state 'dired-mode 'emacs)
+		;; emacs state has no window keys, so C-w moves between windows here as in every other buffer
+		(define-key dirvish-mode-map (kbd "C-w") evil-window-map)
 		(advice-add 'evil-quit :around #'my/dirvish-quit-to-dir))
 	:general-config
 	(my/leader
