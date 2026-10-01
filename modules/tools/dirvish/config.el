@@ -73,11 +73,11 @@
 	;; runs for every buffer the sidebar creates and for no other dirvish buffer
 	(with-eval-after-load 'dirvish-side
 		(advice-add 'dirvish-side-root-conf :after #'my/dirvish-side-omit))
-	;; evil collection binds dired keys in normal state only, so emacs state leaves dired its own keys
 	(with-eval-after-load 'evil
-		(evil-set-initial-state 'dired-mode 'emacs)
-		;; emacs state has no window keys, so C-w moves between windows here as in every other buffer
-		(define-key dirvish-mode-map (kbd "C-w") evil-window-map)
+		;; evil collection binds dired keys in normal state only, motion state keeps the leader and C-w without them
+		(evil-set-initial-state 'dired-mode 'motion)
+		;; dired and dirvish keys win over the motion ones, the leader still wins over both
+		(evil-make-overriding-map dirvish-mode-map 'motion)
 		(advice-add 'evil-quit :around #'my/dirvish-quit-to-dir))
 	:general-config
 	(my/leader
