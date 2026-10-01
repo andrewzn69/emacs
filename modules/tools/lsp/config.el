@@ -115,5 +115,5 @@
 	:hook (lsp-mode . lsp-ui-mode)
 	:general-config
 	(my/leader
-		"T" (cons "diagnostics" (make-sparse-keymap))
+		;; the checker module names the group, a second map here would replace its keys
 		"T t" #'lsp-ui-flycheck-list))
