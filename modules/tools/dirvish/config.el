@@ -2,7 +2,7 @@
 
 (use-package nerd-icons)
 
-;; quitting the last window of a file opens its dir instead of closing emacs, the sidebar does not count
+;; quitting the last window of a file opens its dir in the full layout instead of closing emacs, the sidebar does not count
 ;; a buffer from emacsclient still finishes so its caller stops waiting
 (defun my/dirvish-quit-to-dir (quit &optional force)
 	(if (and (eq (selected-window) (window-main-window))
@@ -13,15 +13,18 @@
 				(when force
 					(set-buffer-modified-p nil))
 				(when (kill-buffer)
-					(dired-jump nil file)))
+					(dirvish (file-name-directory file))
+					(dired-goto-file file)))
 		(funcall quit force)))
 
-;; q on the last window lands on the dashboard rather than whatever buffer was shown before
+;; quitting the full layout back to a lone window lands on the dashboard rather than whatever buffer was shown before
 (defun my/dirvish-quit ()
 	(interactive)
-	(let ((last (eq (selected-window) (window-main-window))))
+	(let ((full (dv-curr-layout (dirvish-curr))))
 		(dirvish-quit)
-		(when (and last (fboundp 'dashboard-open))
+		(when (and full
+							 (eq (selected-window) (window-main-window))
+							 (fboundp 'dashboard-open))
 			(dashboard-open))))
 
 ;; return unfolds a folder in the sidebar, everywhere else it enters it as in dired
