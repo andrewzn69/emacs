@@ -2,10 +2,10 @@
 
 (use-package nerd-icons)
 
-;; quitting the last window of a file opens its dir instead of closing emacs
+;; quitting the last window of a file opens its dir instead of closing emacs, the sidebar does not count
 ;; a buffer from emacsclient still finishes so its caller stops waiting
 (defun my/dirvish-quit-to-dir (quit &optional force)
-	(if (and (one-window-p)
+	(if (and (eq (selected-window) (window-main-window))
 					 buffer-file-name
 					 (not (bound-and-true-p server-buffer-clients)))
 			(let ((file buffer-file-name))
@@ -22,8 +22,16 @@
 	(dirvish-override-dired-mode)
 	:custom
 	(dirvish-attributes '(nerd-icons file-time file-size))
+	;; the sidebar is a tree, folders expand in place
+	(dirvish-side-attributes '(subtree-state nerd-icons))
 	:config
+	;; the sidebar keeps the current file selected and moves to the root of a new project
+	(dirvish-side-follow-mode 1)
+	(define-key dirvish-mode-map (kbd "TAB") #'dirvish-subtree-toggle)
 	;; evil collection binds dired keys in normal state only, so emacs state leaves dired its own keys
 	(with-eval-after-load 'evil
 		(evil-set-initial-state 'dired-mode 'emacs)
-		(advice-add 'evil-quit :around #'my/dirvish-quit-to-dir)))
+		(advice-add 'evil-quit :around #'my/dirvish-quit-to-dir))
+	:general-config
+	(my/leader
+		"e" #'dirvish-side))
