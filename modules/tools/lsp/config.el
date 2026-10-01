@@ -56,7 +56,7 @@
 	(lsp-diagnostics-provider :flycheck)
 	;; the popup reads the completion function directly, lsp wiring up its own would fight it
 	(lsp-completion-provider :none)
-	;; the sideline and the checker already show what these would repeat
+	;; the margin glyphs and the leader keys already reach what these would repeat
 	(lsp-modeline-diagnostics-enable nil)
 	(lsp-modeline-code-actions-enable nil)
 	;; the file and the symbol path across the top of the window, the directories stay out
@@ -97,10 +97,12 @@
 ;; the server starts once the buffer is shown instead of while a file is being read
 (add-hook 'find-file-hook #'my/lsp-maybe-start)
 
-;; diagnostics beside the line and docs in a popup
+;; docs in a popup, diagnostics beside the line on request
 (use-package lsp-ui
 	:after lsp-mode
 	:custom
+	;; the row clutters every flagged line, so it waits for the leader key to turn it on
+	(lsp-ui-sideline-enable nil)
 	;; the line at point carries its own diagnostics to the right
 	(lsp-ui-sideline-show-diagnostics t)
 	;; servers offer the same action on every line they flag, the leader key reaches them instead
