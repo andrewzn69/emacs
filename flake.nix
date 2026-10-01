@@ -26,11 +26,12 @@
         {
           default = pkgs.writeShellApplication {
             name = "emacs";
-            # git for straight and magit, epdfinfo for pdf tools, only on this emacs path
+            # git for straight and magit, epdfinfo for pdf tools, dirvish previews, only on this emacs path
             runtimeInputs = [
               pkgs.git
               (import ./nix/epdfinfo.nix pkgs)
-            ];
+            ]
+            ++ import ./nix/dirvish-previews.nix pkgs;
             text = ''
               exec ${emacs}/bin/emacs --init-directory ${self} "$@"
             '';

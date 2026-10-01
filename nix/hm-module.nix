@@ -16,6 +16,7 @@
     # pdf tools finds epdfinfo on PATH
     (import ./epdfinfo.nix pkgs)
   ]
+  ++ import ./dirvish-previews.nix pkgs
   # skip git when programs.git already installs it, two git pkgs can collide
   ++ lib.optional (!config.programs.git.enable) pkgs.git;
 
