@@ -19,8 +19,7 @@
 
 (use-package auth-source
   :straight nil
-  :when my/linux-p
   :defer t
   :custom
-  ;; keyring instead of a plain text authinfo file
-  (auth-sources '(default)))
+  ;; encrypted file only, the default list also reads plain text ones
+  (auth-sources '("~/.authinfo.gpg")))
