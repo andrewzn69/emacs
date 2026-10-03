@@ -6,4 +6,21 @@
   :general
   (my/leader
     "g" (cons "git" (make-sparse-keymap))
-    "g g" #'magit-status))
+    "g g" #'magit-status)
+  :custom
+  ;; small edits inside long lines get lost without it
+  (magit-diff-refine-hunk t))
+
+(use-package forge
+  :after magit
+  :preface
+  ;; off before magit loads, evil collection binds forge instead
+  (setq forge-add-default-bindings nil))
+
+(use-package auth-source
+  :straight nil
+  :when my/linux-p
+  :defer t
+  :custom
+  ;; keyring instead of a plain text authinfo file
+  (auth-sources '(default)))
