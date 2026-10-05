@@ -35,6 +35,13 @@
 			(forge--branch-pullreq pullreq))
 		(forge-merge pullreq 'merge)))
 
+(define-advice forge--pull (:filter-args (args) my/forge-pull-callback-arity)
+	"Adapt a CALLBACK taking no arguments, `forge--pull' passes it the repo.
+Without this the merge cleanup fails with a wrong number of arguments."
+	(let ((callback (nth 1 args)))
+		(if (and callback (equal (func-arity callback) '(0 . 0)))
+				`(,(nth 0 args) ,(lambda (&rest _) (funcall callback)) ,@(cddr args))
+			args)))
 
 (my/leader
 	"g m" #'my/forge-merge-pullreq)
