@@ -23,3 +23,18 @@
   :custom
   ;; encrypted file only, the default list also reads plain text ones
   (auth-sources '("~/.authinfo.gpg")))
+
+(defun my/forge-merge-pullreq (pullreq)
+	"Merge PULLREQ through the api with a merge commit."
+	(interactive (list (progn (require 'forge)
+														(or (forge-current-pullreq)
+																(forge-read-pullreq "Merge pull request")))))
+	(let ((pullreq (forge-get-pullreq pullreq)))
+		;; the api merge resolves the head ref by branch name, so it has to exist
+		(unless (forge--pullreq-branch-active pullreq)
+			(forge--branch-pullreq pullreq))
+		(forge-merge pullreq 'merge)))
+
+
+(my/leader
+	"g m" #'my/forge-merge-pullreq)
